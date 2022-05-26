@@ -8,8 +8,8 @@ export default function HomeIndex() {
         <div>login</div>
         <div><Link to={'/sheets'}>Sheets</Link></div>
         <div><Link to={'/data'}>Data</Link></div>
-        <div>experiments</div>
-        <div>feed</div>
+        <div>Research</div>
+        <div>Feed</div>
         </div>
 
     )

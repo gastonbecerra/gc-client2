@@ -1,7 +1,7 @@
 import React , { useEffect , useState } from "react"; 
-import ListComponent from "../components/List";
+import ListComponent from "../../components/List";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSheets } from "../store/slices/sheets";
+import { fetchSheets } from "../../store/slices/sheets";
 
 export default function SheetIndex() {
 

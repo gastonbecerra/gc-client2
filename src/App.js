@@ -3,9 +3,10 @@ import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import { Provider } from 'react-redux';
 import store from './store';
 
-import SheetIndex from './pages/Sheets';
-import HomeIndex from './pages/Home';
-import DataIndex from './pages/Data';
+import SheetIndex from './pages/Sheets/Sheets';
+import HomeIndex from './pages/Home/Home';
+import DataIndex from './pages/Data/Data';
+import DataModal from './pages/Data/DataModal';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
       <Route exact path="/" element={<HomeIndex />}/>
       <Route exact path="/sheets" element={<SheetIndex />}/>
       <Route exact path="/data" element={<DataIndex />}/>
+      <Route exact path="/data/:type/:id" element={<DataModal />}/>
     </Routes>
 
     </Provider>
