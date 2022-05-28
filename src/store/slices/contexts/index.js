@@ -1,17 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import Axios from 'axios';
-
-export const fetchContexts = createAsyncThunk(
-    'contexts/fetchContexts',
-    async (dispatch) => {
-        return fetch('http://localhost:8080/contexts').then((res) => 
-            res.json()        
-        )
-    }
-)
 
 export const contextSlice = createSlice({
-
     name: 'contexts',
     initialState: {
         contexts: false,
@@ -47,18 +36,12 @@ export const contextSlice = createSlice({
 
  })
 
-// export const {setContexts} = contextSlice.actions;
+ export const fetchContexts = createAsyncThunk(
+    'contexts/fetchContexts',
+    async (dispatch) => {
+        return fetch('http://localhost:8080/contexts').then((res) => 
+            res.json()        
+        )
+    }
+)
 export default contextSlice.reducer;
-
-// export const fetchContexts = () => (dispatch) => {
-//     Axios({
-//         method: 'get',
-//         url: 'http://localhost:8080/contexts',
-//         withCredentials: true
-//         }).then((response)=>{   
-//         dispatch(setContexts(response.data));
-//     })
-//     .catch((e)=>{
-//         console.log('failure fetching contexts');
-//     })
-// }

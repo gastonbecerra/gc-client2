@@ -12,8 +12,17 @@ export const renderRequiredInput = (input) =>{
             case 'date':
                 type= "Dates";
                 break;
+        
+            case 'number':
+                type= "Number";
+                break;
+            
+            case 'boolean':
+                type= "Boolean";
+                break;
                 
             default:
+                type= "Text";
                 return null;
         }
         const Component = Input[type];
