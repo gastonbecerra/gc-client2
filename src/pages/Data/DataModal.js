@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
+import { fetchVars  } from "../../store/slices/vars";
+import { fetchContexts } from "../../store/slices/contexts"; 
+import { renderRequiredInput } from "../../helpers";
 
 export default function DataModal(props) {
 
     // veo que tipo de entidad estoy mostrando/editando/creando
-    const { vars } = useSelector( state => state.vars ) // tomamos las vars de redux
-    const { contexts } = useSelector( state => state.contexts ) // tomamos los contexts de redux
+    const dispatch = useDispatch();
+    const { vars_status, vars, var_schema } = useSelector( state => state.vars ) // tomamos las vars de redux
+    const { contexts_status, contexts, context_schema } = useSelector( state => state.contexts ) // tomamos los contexts de redux
     const { id, type } = useParams(); // id y type (var / context)
     const [ modeNew, setModeNew ] = useState(false); // veamos si es un elemento nuevo
-    const [ formData, setFormData ] = useState(false); // state tiene los campos a editar
+    const [ state, setState ] = useState(false); // state tiene los campos a editar
 
     useEffect(() => {
         id === 'create' ? setModeNew(true) : setModeNew(false);
-        if (!modeNew) { // si estoy editando, voy a buscar los datos dependiendo del tipo
-            if ( type === 'var' ) { var data = vars.filter( v=>v._id === id ); }
-            if ( type === 'context' ) { var data = contexts.filter( v=>v._id === id ); }
-            setFormData( data[0] )
-        } else { // si es nuevo, deberia usar un template?
-            setFormData( false )
+        !vars && dispatch(fetchVars());
+        !contexts && dispatch(fetchContexts());
+
+        try{
+            if (!modeNew && (vars_status === 'fulfilled') && (contexts_status === 'fulfilled')) { // si estoy editando, voy a buscar los datos dependiendo del tipo
+                if ( type === 'var') { setState(vars.filter( v=>v._id === id )); }
+                if ( type === 'context' && contexts) { setState(contexts.filter( v=>v._id === id )); }                
+            } else { // si es nuevo, deberia usar un template?
+                if ( type === 'var') { setState(var_schema); }
+                if ( type === 'context') { setState(context_schema); }                
+            }
+        }catch(e){
+            console.error({er: e, ms: 'err filtering selecte context || var '});
         }
-    }, [])
+    },[dispatch])
+
 
     const handleValue = (evt) => {
         // const value =
@@ -34,6 +46,10 @@ export default function DataModal(props) {
     const handleSubmit = () => {
     }
 
+    useEffect(()=>{
+        // console.log(state);
+    },[state])
+
     return (
         <div>
 
@@ -41,19 +57,13 @@ export default function DataModal(props) {
 
             <div>
                 <h2>Overview</h2>
-                <h3>{id}</h3>
-
-                    <p>
-                    2do: aca lo que hay que mostrar son los campos de formData
-                                    con un loop porque asi usamos el mismo formato entre vars y contexts
-                    </p>
-                                    
-                    <label>Name:</label>
-                    <input type="text" value={formData.name} id="name" name="name" onChange={(e) => handleValue(e)} /> <br />
-
-                {/* <label>Type:</label> <input type="text" value={state.type} id="type" name="type" onChange={(e) => handleValue(e)} /> <br /> */}
-
-                <button onClick={() => handleSubmit()}>actualizar</button>
+                <form>
+                    {state &&
+                        Object.entries(state).map((input, i)=>(
+                            renderRequiredInput(input)
+                        ))
+                    }
+                </form>
             </div>
 
             <div>

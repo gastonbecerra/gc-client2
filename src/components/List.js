@@ -1,16 +1,25 @@
 import React from "react"; 
 import CreateButtonComponent from "./CreateButton";
-import { useLocation , useNavigate } from "react-router-dom";
+import { Link, useLocation , useNavigate } from "react-router-dom";
 
 export default function ListComponent( { list , type } ) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const handleNavigation = ( id ) => {
-        location.pathname.includes('data') ? 
-            navigate(`${location.pathname}/${type}/${id}`) 
-            :
-            navigate(`${location.pathname}/${id}`) 
+    const HandleNavigation = ( {item} ) => {
+        let path;
+        if(location.pathname.includes('data')){
+            path = `${location.pathname}/${type}/${item._id}`;
+        } else{
+            path = `${location.pathname}/${item._id}`;
+        }
+        return(
+            <Link to={path}>
+                <li>
+                    {item.name}
+                </li>
+            </Link>
+        )
     }
 
     return(
@@ -20,7 +29,7 @@ export default function ListComponent( { list , type } ) {
                 { list && 
                     list.map(( item , i )=>(
                         <>
-                        <li onClick={ () => handleNavigation( item._id ) }>{ item.name }</li>
+                            <HandleNavigation  key={i} item={item}/>
                         </>
                     ))
                 }
