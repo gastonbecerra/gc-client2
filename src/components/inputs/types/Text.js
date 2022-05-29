@@ -1,10 +1,15 @@
 import React from 'react'
 
-export default function Text({id, type}) {
+export default function Text({id, handleValue, value}) {
   return (
     <>
-        <label for={id}>{id}</label>
-        <input name={id} id={id} type="text"/>
+        <label htmlFor={id}>{id}</label>
+        <input           
+          name={id} 
+          id={id} 
+          type="text" 
+          placeholder={value}
+          onChange={(e) => handleValue(e)} />
         <br></br>
       
     </>
