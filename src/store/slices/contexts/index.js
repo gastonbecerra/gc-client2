@@ -17,7 +17,7 @@ export const contextSlice = createSlice({
         context_schema_types: { //this is used as a template to geerate dinamic inputs
             _id: {type: 'id', value: ''},
             name: {type: 'text', value: ''},
-            description: {type: 'text', value: ''},
+            description: {type: 'textarea', value: ''},
             rules: {type: 'array', value: ''},
             subscribed: {type: 'number', value: ''},
             circunscribed: {type: 'number', value: ''},

@@ -49,16 +49,14 @@ export default function DataModal(props) {
         if(!modeNew){
             if ( state &&  type === 'var') {                 
                 var aux = structuredClone(var_schema_types)
-                for (const property in aux) {                  
-                    console.log(aux[property]);
+                for (const property in aux) {                                      
                     aux[property].value = state[property]; 
                 }
                 setStateTypes(aux)                 
             }
             if ( state && type === 'context' && contexts) {                 
                 var aux = structuredClone(context_schema_types)
-                for (const property in aux) {
-                    console.log(aux[property]);
+                for (const property in aux) {                                       
                     aux[property].value = state[property]; 
                 }
                 setStateTypes(aux)                 

@@ -6,7 +6,10 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
         let value;
         if(!mode){
             value = input[1].value;
-            console.log('req ' , value);
+        }
+        let options = false;
+        if(input[1].type === 'options'){
+            options = input[1].options;
         }
         switch (input[1].type) {
             case 'text':
@@ -28,16 +31,24 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
             case 'array':
                 type= "Array";
                 break;
+            
+            case 'textarea':
+                type= "Textarea";
+                break;
+
+            case 'options':
+                type= "Options";
+                break;
                 
             default:
                 type= "Text";
                 return null;
         }
         const Component = Input[type];
-        if(mode){
-            return <Component id={id} handleValue={handleValue} key={key} />
+        if(mode && options){
+            return <Component id={id} handleValue={handleValue} key={key} options={options}/>
         }else{
-            return <Component id={id} handleValue={handleValue} key={key} value={value}/>
+            return <Component id={id} handleValue={handleValue} key={key} value={value} options={options}/>
         }
     
 }

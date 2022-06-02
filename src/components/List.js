@@ -28,9 +28,9 @@ export default function ListComponent( { list , type } ) {
             <div>
                 { list && 
                     list.map(( item , i )=>(
-                        <>
+                        
                             <HandleNavigation  key={i} item={item}/>
-                        </>
+                        
                     ))
                 }
             </div>
