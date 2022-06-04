@@ -11,6 +11,15 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
         if(input[1].type === 'options'){
             options = input[1].options;
         }
+        try{
+            if(input[1].required){
+                var required = input[1].required;
+            }else{
+                var required = false;
+            }
+        }catch(e){
+
+        }
         switch (input[1].type) {
             case 'text':
                 type= "Text";
@@ -46,9 +55,9 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
         }
         const Component = Input[type];
         if(mode && options){
-            return <Component id={id} handleValue={handleValue} key={key} options={options}/>
+            return <Component id={id} handleValue={handleValue} key={key} options={options} required={required}/>
         }else{
-            return <Component id={id} handleValue={handleValue} key={key} value={value} options={options}/>
+            return <Component id={id} handleValue={handleValue} key={key} value={value} options={options} required={required}/>
         }
     
 }

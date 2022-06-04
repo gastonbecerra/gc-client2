@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
-import { fetchVars, postVar  } from "../../store/slices/vars";
+import { fetchVars, postVar, putVar  } from "../../store/slices/vars";
 import { fetchContexts  } from "../../store/slices/contexts"; 
 import { renderRequiredInput } from "../../helpers";
 
@@ -15,7 +15,7 @@ export default function DataModal(props) {
     const [ modeNew, setModeNew ] = useState(false); // veamos si es un elemento nuevo
     const [ state, setState ] = useState(false); // state tiene los campos a editar
     const [ stateTypes, setStateTypes ] = useState(false); // state template para renderizado de tipos de inputs
-
+    
     /*------------------Life cycle logic------------------*/
     useEffect(()=>{
         !vars && dispatch(fetchVars());
@@ -75,33 +75,34 @@ export default function DataModal(props) {
 
     const handleSubmit = (e) => { //handles post or put request to database and throw redux action
         e.preventDefault();
-        dispatch(postVar(state))
+        modeNew ? dispatch(postVar(state, callbackState)) : dispatch(putVar(state, id, callbackState))
     }
 
+    const callbackState = (response) => {
+        console.log(response.data);
+    }
 
     return (
         <div>
             <h1>{modeNew ? 'Creando' : 'Editando'} {type} </h1>
             <div>
                 <h2>Overview</h2>
-                <form>
-                    {state &&                    
-                        Object.entries(stateTypes).map((input, key)=>(
+                
+                    {state &&
+                        <form onSubmit={(e)=>{handleSubmit(e)}}>
+                        {Object.entries(stateTypes).map((input, key)=>(
                             <span key={key}>
-                                {renderRequiredInput(input, handleValue, key, modeNew)}
+                                {renderRequiredInput(input, handleValue, key, modeNew, handleSubmit)}
                             </span>
-                        ))                            
-                    }
+                        ))                         }
                     <button 
-                        type="submit"
-                        onClick={(e)=>{handleSubmit(e)}}                                    
+                        type="submit"                                                            
                     >
                         Submit
                     </button>
-                    <pre>
-                        {id}<br></br>{JSON.stringify(state)}
-                    </pre>
-                </form>
+                    </form>
+                    }
+                                        
             </div>
 
             <div>

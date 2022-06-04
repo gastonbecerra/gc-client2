@@ -4,7 +4,7 @@ export default function Array({id, handleValue, value}) {
   const [indexs, setIndexs] = useState([]);
   
   const handleInput = (e) => {
-    if((e.key === 'Enter') || (e.key === ',')){
+    if((e.key === ',')){
         var ta = document.getElementById(`${id}`);
         var tag = ta.value;
         setIndexs([
