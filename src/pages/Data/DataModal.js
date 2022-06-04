@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { fetchVars, postVar, putVar  } from "../../store/slices/vars";
 import { fetchContexts  } from "../../store/slices/contexts"; 
 import { renderRequiredInput } from "../../helpers";
+import { Link, useLocation , useNavigate } from "react-router-dom";
+
 
 export default function DataModal(props) {
 
@@ -15,6 +17,7 @@ export default function DataModal(props) {
     const [ modeNew, setModeNew ] = useState(false); // veamos si es un elemento nuevo
     const [ state, setState ] = useState(false); // state tiene los campos a editar
     const [ stateTypes, setStateTypes ] = useState(false); // state template para renderizado de tipos de inputs
+    const navigate = useNavigate();
     
     /*------------------Life cycle logic------------------*/
     useEffect(()=>{
@@ -49,7 +52,8 @@ export default function DataModal(props) {
         if(!modeNew){
             if ( state &&  type === 'var') {                 
                 var aux = structuredClone(var_schema_types)
-                for (const property in aux) {                                      
+                for (const property in aux) {
+                    //limpiar todos los props del esquema que no necesitamos => {key: value}                                      
                     aux[property].value = state[property]; 
                 }
                 setStateTypes(aux)                 
@@ -57,6 +61,7 @@ export default function DataModal(props) {
             if ( state && type === 'context' && contexts) {                 
                 var aux = structuredClone(context_schema_types)
                 for (const property in aux) {                                       
+                    //limpiar todos los props del esquema que no necesitamos => {key: value}                                      
                     aux[property].value = state[property]; 
                 }
                 setStateTypes(aux)                 
@@ -75,12 +80,28 @@ export default function DataModal(props) {
 
     const handleSubmit = (e) => { //handles post or put request to database and throw redux action
         e.preventDefault();
-        modeNew ? dispatch(postVar(state, callbackState)) : dispatch(putVar(state, id, callbackState))
+
+        type === 'var' && 
+            modeNew ? 
+                dispatch(postVar(state, callbackState)) 
+                : 
+                dispatch(putVar(state, id, callbackState))
+             
+        type === 'context' && 
+            modeNew ? 
+                dispatch(postVar(state, callbackState)) 
+                : 
+                dispatch(putVar(state, id, callbackState))
     }
 
-    const callbackState = (response) => {
-        console.log(response.data);
+    const callbackState = (response) => { // returns data and status from server request
+        response.status === 200 &&        
+            dispatch(fetchVars());
     }
+
+    useEffect(()=>{
+        // console.log(state);
+    },[state])
 
     return (
         <div>

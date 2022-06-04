@@ -11,6 +11,7 @@ export default function Text({id, handleValue, value, required}) {
           id={id} 
           type="text" 
           placeholder={value}
+          value={value}
           onChange={(e) => handleValue(e)} />
         <br></br>
       

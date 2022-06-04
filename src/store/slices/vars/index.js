@@ -17,11 +17,12 @@ export const varSlice = createSlice({
         vars: false,
         vars_status: null,
         var_schema_types: {
-            _id: {type: 'id'},
+            // _id: {type: 'id'},
             name: {type: 'text', value: '', required: true},
-            type: {type: 'text', value: '', required: true},
-            description: {type: 'textarea', value: '', required: true},
+            type: {type: 'options', value: '', options: ['currency', 'numeric', 'string'], required: true},
+            description: {type: 'textarea', value: '', required: false},
             timeframe: {type: 'options', value: '', options: ['free', 'h', 'day', 'week', 'month', 'year'], required: true},
+            measurement: { type: 'options', value: '', options: ['generic', 'US Dollar'], required: true},
             created: {type: 'date', value: '', editable: false},
             user: {type: 'text', value: '', editable: false},            
             tags: {type: 'array', value: '', required: false},
@@ -38,9 +39,9 @@ export const varSlice = createSlice({
         },
         [fetchVars.fulfilled] : (state, { payload }) => {
             state.vars = payload;
-            state.vars_status = 'success';
+            state.vars_status = 'success'; 
         },
-        [fetchVars.pending] : (state, action) => {
+        [fetchVars.rejected] : (state, action) => {
             state.vars_status = 'failed';
         }
     }
@@ -56,11 +57,11 @@ export const postVar = (data, callbackState) => (dispatch, getState) =>{
         method: 'post',
         data: {data}
     })
-    .then((res)=>{        
-        const { vars } = getState().vars
-        dispatch(setVars([...vars, res.data]))        
-        return res;
-    })
+    // .then((res)=>{        
+    //     const { vars } = getState().vars
+    //     dispatch(setVars([...vars, res.data]))        
+    //     return res;
+    // })
     .then((res)=>{
         callbackState(res);
     })
@@ -79,15 +80,17 @@ export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
         method: 'put',
         data: {data}
     })
-    .then((res)=>{        
-        const { vars } = getState().vars;        
-        const idx = vars.findIndex(v => v._id === res.data._id);
-        const n_vars = [...vars];
-        if(idx !== -1){
-            dispatch(setVars(n_vars.splice(idx,1,res.data)))
-        }
-        return res;
-    })
+    // ACTUALIZAR EL LISTADO DE VARS A PARTIR DE LO QUE DEVUELVE EL RESPONSE DEL SERVER 
+    
+    //.then((res)=>{        
+    //     const { vars } = getState().vars;        
+    //     const idx = vars.findIndex(v => v._id === res.data._id);
+    //     const n_vars = [...vars];
+    //     if(idx !== -1){
+    //         dispatch(setVars(n_vars.splice(idx,1,res.data)))
+    //     }
+    //     return res;
+    // })
     .then((res)=>{
         callbackState(res, res.status)
         return res;
