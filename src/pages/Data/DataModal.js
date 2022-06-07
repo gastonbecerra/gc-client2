@@ -105,6 +105,7 @@ export default function DataModal(props) {
     const callbackState = (response) => { // returns data and status from server request
         response.status === 200 &&        
             dispatch(fetchVars());
+            dispatch(fetchContexts());
             navigate('/data');
     }
 
