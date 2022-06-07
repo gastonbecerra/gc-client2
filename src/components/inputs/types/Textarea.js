@@ -12,6 +12,7 @@ export default function Textarea({id, handleValue, value, required}) {
             rows="4" 
             cols="30"
             placeholder={value}
+            value={value}
             onChange={(e)=>handleValue(e)}>
         </textarea>
         <br></br>

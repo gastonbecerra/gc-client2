@@ -8,14 +8,17 @@ import { fetchVars } from "../../store/slices/vars";
 export default function DataIndex() {
     
     const [ election, setElection ] = useState('var')
-    const { vars } = useSelector(state => state.vars)
-    const { contexts } = useSelector(state => state.contexts)
+    const { vars, vars_status } = useSelector(state => state.vars)
+    const { contexts, contexts_status } = useSelector(state => state.contexts)
     
     const dispatch = useDispatch();
     useEffect(()=>{
         !contexts && dispatch(fetchContexts())
         !vars && dispatch(fetchVars())
-    },[])
+
+        vars_status === 'sucess' && dispatch(fetchVars());
+        contexts_status === 'sucess' && dispatch(fetchContexts());
+    },[vars_status, contexts_status])
 
     return(
         <div>

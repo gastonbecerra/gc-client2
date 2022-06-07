@@ -3,7 +3,7 @@ import * as Input from '../components/inputs/index';
 export const renderRequiredInput = (input, handleValue, key, mode) =>{
         let type;        
         let id=input[0]
-        let value;
+        var value;
         if(!mode){
             value = input[1].value;
         }

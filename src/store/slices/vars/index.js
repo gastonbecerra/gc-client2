@@ -57,11 +57,6 @@ export const postVar = (data, callbackState) => (dispatch, getState) =>{
         method: 'post',
         data: {data}
     })
-    // .then((res)=>{        
-    //     const { vars } = getState().vars
-    //     dispatch(setVars([...vars, res.data]))        
-    //     return res;
-    // })
     .then((res)=>{
         callbackState(res);
     })
@@ -70,9 +65,6 @@ export const postVar = (data, callbackState) => (dispatch, getState) =>{
     })
 }
 
-// export const updateVars = (data, mode) => (useDispatch) => {
-
-// }
 
 export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
     Axios({
@@ -80,23 +72,11 @@ export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
         method: 'put',
         data: {data}
     })
-    // ACTUALIZAR EL LISTADO DE VARS A PARTIR DE LO QUE DEVUELVE EL RESPONSE DEL SERVER 
-    
-    //.then((res)=>{        
-    //     const { vars } = getState().vars;        
-    //     const idx = vars.findIndex(v => v._id === res.data._id);
-    //     const n_vars = [...vars];
-    //     if(idx !== -1){
-    //         dispatch(setVars(n_vars.splice(idx,1,res.data)))
-    //     }
-    //     return res;
-    // })
-    .then((res)=>{
-        callbackState(res, res.status)
-        return res;
+    .then((res)=>{        
+        callbackState(res)
     })
     .catch((res)=>{
-        callbackState(res.data, res.status)
+        callbackState(res)
     })
  }
 

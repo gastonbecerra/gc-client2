@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { fetchVars, postVar, putVar  } from "../../store/slices/vars";
-import { fetchContexts  } from "../../store/slices/contexts"; 
+import { fetchContexts, postContext, putContext  } from "../../store/slices/contexts"; 
 import { renderRequiredInput } from "../../helpers";
 import { Link, useLocation , useNavigate } from "react-router-dom";
 
@@ -37,11 +37,21 @@ export default function DataModal(props) {
                 } 
             }else{
                 if ( type === 'var') { 
-                    setState(var_schema_types)     
+                    var flat_schema = structuredClone(var_schema_types);
+                    for(const property in flat_schema){
+                        delete flat_schema[property]; 
+                        flat_schema[property] = '';
+                    }                    
+                    setState(flat_schema);     
                     setStateTypes(var_schema_types)               
                 }
                 if ( type === 'context') { 
-                    setState(context_schema_types); 
+                    var flat_schema = structuredClone(context_schema_types);
+                    for(const property in flat_schema){
+                        delete flat_schema[property]; 
+                        flat_schema[property] = '';
+                    }                    
+                    setState(flat_schema);                         
                     setStateTypes(context_schema_types)               
                 }            
             }
@@ -53,16 +63,14 @@ export default function DataModal(props) {
             if ( state &&  type === 'var') {                 
                 var aux = structuredClone(var_schema_types)
                 for (const property in aux) {
-                    //limpiar todos los props del esquema que no necesitamos => {key: value}                                      
                     aux[property].value = state[property]; 
                 }
                 setStateTypes(aux)                 
             }
             if ( state && type === 'context' && contexts) {                 
                 var aux = structuredClone(context_schema_types)
-                for (const property in aux) {                                       
-                    //limpiar todos los props del esquema que no necesitamos => {key: value}                                      
-                    aux[property].value = state[property]; 
+                for (const property in aux) {                                                           
+                    aux[property].value = state[property];                     
                 }
                 setStateTypes(aux)                 
             }   
@@ -89,14 +97,15 @@ export default function DataModal(props) {
              
         type === 'context' && 
             modeNew ? 
-                dispatch(postVar(state, callbackState)) 
+                dispatch(postContext(state, callbackState)) 
                 : 
-                dispatch(putVar(state, id, callbackState))
+                dispatch(putContext(state, id, callbackState))
     }
 
     const callbackState = (response) => { // returns data and status from server request
         response.status === 200 &&        
             dispatch(fetchVars());
+            navigate('/data');
     }
 
     useEffect(()=>{
@@ -125,7 +134,7 @@ export default function DataModal(props) {
                     }
                                         
             </div>
-
+                
             <div>
                 <h2>Stats / Info</h2>
             </div>

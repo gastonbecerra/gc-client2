@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import Axios from 'axios';
 
 export const fetchContexts = createAsyncThunk(
    'contexts/fetchContexts',
@@ -15,16 +16,21 @@ export const contextSlice = createSlice({
         contexts: false,
         contexts_status: null,
         context_schema_types: { //this is used as a template to geerate dinamic inputs
-            _id: {type: 'id', value: ''},
+            // _id: {type: 'id', value: ''},
             name: {type: 'text', value: ''},
             description: {type: 'textarea', value: ''},
             rules: {type: 'array', value: ''},
-            subscribed: {type: 'number', value: ''},
-            circunscribed: {type: 'number', value: ''},
+            subscribed: {type: 'info', value: ''},
+            circunscribed: {type: 'info', value: ''},
             tags: {type: 'array', value: ''},
-            created: {type: 'date', value: ''},
-            user: {type: 'text', value: ''},
+            created: {type: 'info', value: '', editable: false},
+            user: {type: 'text', value: '', editable: false},   
         }
+    },
+    reducers: {
+        setContexts : ( state, action ) => {
+            state.contexts = action.payload;
+        },
     },
     extraReducers: {
         [fetchContexts.pending] : (state, action) => {
@@ -38,12 +44,37 @@ export const contextSlice = createSlice({
             state.contexts_status = 'failed';
         }
     }
-    // reducers: {
-    //     setContexts: (state, action)=>{
-    //         state.contexts = action.payload;
-    //     },
-    // }
-
  })
 
 export default contextSlice.reducer;
+
+export const { setContexts } = contextSlice.actions;
+
+export const postContext = (data, callbackState) => (dispatch, getState) =>{
+    Axios({
+        url: 'http://localhost:8080/contexts',
+        method: 'post',
+        data: {data}
+    })
+    .then((res)=>{
+        callbackState(res);
+    })
+    .catch((res)=>{
+        callbackState(res);
+    })
+}
+
+
+export const putContext = (data, id, callbackState) => (dispatch, getState) =>{
+    Axios({
+        url: `http://localhost:8080/contexts/${id}`,
+        method: 'put',
+        data: {data}
+    })
+    .then((res)=>{        
+        callbackState(res)
+    })
+    .catch((res)=>{
+        callbackState(res)
+    })
+ }

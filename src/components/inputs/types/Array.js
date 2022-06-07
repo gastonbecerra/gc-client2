@@ -3,6 +3,7 @@ import React, {useState, useEffect, useRef} from 'react'
 export default function Array({id, handleValue, value}) {
   const [indexs, setIndexs] = useState([]);
   
+  
   const handleInput = (e) => {
     if((e.key === ',')){
         var ta = document.getElementById(`${id}`);
@@ -21,8 +22,8 @@ export default function Array({id, handleValue, value}) {
     ])
   }
   useEffect(()=>{
-      
-  })
+      value && setIndexs([...value])
+  },[])
 
   useEffect(()=>{
     try{

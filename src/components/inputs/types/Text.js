@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function Text({id, handleValue, value, required}) {
-  console.log(id, required)
   return (
     <>
         <label htmlFor={id}>{id}</label>
