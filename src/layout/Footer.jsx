@@ -26,7 +26,7 @@ export default function Footer() {
             </Link>
         </div>
         <div>
-            <Link to={'/'}>
+            <Link to={'/test'}>
                 Feed
             </Link>
         </div>

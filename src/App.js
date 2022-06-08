@@ -10,6 +10,7 @@ import DataModal from './pages/Data/DataModal';
 import Signin from './pages/Login/Signin';
 import Footer from './layout/Footer';
 import Header from './layout/Header';
+import TestHome from './pages/Test/TestHome';
 function App() {
 
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route exact path="/data" element={<DataIndex />}/>
       <Route exact path="/data/:type/:id" element={<DataModal />}/>
       <Route exact path="/signin" element={<Signin />}/>
+      <Route exact path="/test" element={<TestHome />}/>
     </Routes>
 
     <Footer/>

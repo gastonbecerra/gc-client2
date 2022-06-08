@@ -38,7 +38,7 @@ export default function Signin() {
   }, [option]);
 
   useEffect(()=>{
-    console.log(state);
+    // console.log(state);
   },[state])
 
   const handleValue = (evt) => {

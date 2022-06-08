@@ -15,8 +15,8 @@ export const userSlice = createSlice({
       password: { type: "password", value: "", required: true },
     },
     signin_schema_types: {
-      username: { type: "text", value: "", required: false },
-      email: { type: "text", value: "", required: true },
+      // username: { type: "text", value: "", required: false },
+      email: { type: "text", value: 'coso', required: true },
       password: { type: "password", value: "", required: true },
     },
   },

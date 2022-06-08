@@ -1,5 +1,5 @@
 import * as Input from '../components/inputs/index';
-
+import { Text, Password, Dates, Number, Boolean, Array, Textarea, Options  } from '../components/inputs/index';
 export const renderRequiredInput = (input, handleValue, key, mode) =>{
         let type;        
         let id=input[0]
@@ -66,8 +66,23 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
     
 }
 
-export const forRenderInput = (input, handleValue, key, mode) => {
-    
+export const renderForm = (schema, handleValue, handleSubmit) => {
+    return (
+        <form onSubmit={handleSubmit}>
+            {
+                Object.entries(schema).map((input, key)=>(                    
+                      input[1].type === 'text' ? <Input.Text key={key} input={input} handleValue={handleValue}/> 
+                    : input[1].type === 'password' ? <Input.Password key={key} id={input[0]} value={input[1].value} required={input[1].required} handleValue={handleValue}/> 
+                    : input[1].type === 'options' ? <Input.Options key={key} input={input} handleValue={handleValue}/> 
+                    : input[1].type === 'boolean' ? <Input.Boolean key={key} input={input} handleValue={handleValue}/> 
+                    : input[1].type === 'array' ? <Input.Array key={key} input={input} handleValue={handleValue}/> 
+                    : input[1].type === 'textarea' ? <Input.Textarea key={key} input={input} handleValue={handleValue}/> 
+                    : input[1].type === 'date' ? <Input.Dates key={key} input={input} handleValue={handleValue}/> : null
+                ))
+            }
+            <input type="submit" value="Submit"/>
+        </form>
+    )
 }
 
 // export  const handleValue = (evt) => { // it goes as formbuilder paramater so it handles inputs changes to local state
