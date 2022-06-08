@@ -80,4 +80,17 @@ export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
     })
  }
 
+ export const deleteVar = ( var_id, user_id, callbackState) => (dispatch, getState) =>{
+    Axios({
+        url: `http://localhost:8080/vars/${var_id}/${user_id}`,
+        method: 'delete',        
+    })
+    .then((res)=>{        
+        callbackState(res)
+    })
+    .catch((res)=>{
+        callbackState(res)
+    })
+ }
+
 

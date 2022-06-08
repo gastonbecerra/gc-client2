@@ -7,7 +7,9 @@ import SheetIndex from './pages/Sheets/Sheets';
 import HomeIndex from './pages/Home/Home';
 import DataIndex from './pages/Data/Data';
 import DataModal from './pages/Data/DataModal';
-
+import Signin from './pages/Login/Signin';
+import Footer from './layout/Footer';
+import Header from './layout/Header';
 function App() {
 
   return (
@@ -16,17 +18,16 @@ function App() {
     
     <BrowserRouter>
     <Provider store={store}>
-
-    <div>
-      <h1><Link to={'/'}>getContext()</Link></h1>
-    </div>
-
+    <Header/>
     <Routes>
       <Route exact path="/" element={<HomeIndex />}/>
       <Route exact path="/sheets" element={<SheetIndex />}/>
       <Route exact path="/data" element={<DataIndex />}/>
       <Route exact path="/data/:type/:id" element={<DataModal />}/>
+      <Route exact path="/signin" element={<Signin />}/>
     </Routes>
+
+    <Footer/>
 
     </Provider>
     </BrowserRouter>

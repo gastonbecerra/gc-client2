@@ -1,14 +1,14 @@
 import React from 'react'
 
-export default function Text({id, handleValue, value, required}) {
+export default function Password({id, handleValue, value, required}) {
   return (
     <>
         <label htmlFor={id}>{id}</label>
         <input           
-        required={required}
+            required={required}
           name={id} 
           id={id} 
-          type="text" 
+          type="password" 
           value={value}
           onChange={(e) => handleValue(e)} />
         <br></br>

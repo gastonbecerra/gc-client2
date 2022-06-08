@@ -48,6 +48,10 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
             case 'options':
                 type= "Options";
                 break;
+
+            case 'password':
+                type= "Password";
+                break;
                 
             default:
                 type= "Text";
@@ -61,3 +65,15 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
         }
     
 }
+
+export const forRenderInput = (input, handleValue, key, mode) => {
+    
+}
+
+// export  const handleValue = (evt) => { // it goes as formbuilder paramater so it handles inputs changes to local state
+//     var value = evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
+//     setState({
+//       ...state,
+//       [evt.target.name]: value
+//     });
+//   };

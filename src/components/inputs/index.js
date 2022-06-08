@@ -5,3 +5,4 @@ export { default as Boolean } from './types/Boolean';
 export { default as Array } from './types/Array';
 export { default as Textarea } from './types/Textarea';
 export { default as Options } from './types/Options';
+export { default as Password } from './types/Password';
