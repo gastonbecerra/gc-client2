@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { signin, signup, logout } from "../../store/slices/user";
-import { renderRequiredInput } from "../../helpers";
+import { renderRequiredInput, renderForm } from "../../helpers";
 import Axios from "axios";
 
 export default function Signin() {
@@ -15,13 +15,13 @@ export default function Signin() {
   useEffect(() => {
     if (!id) {
       if(option === 'signup'){
-        var flat_schema = structuredClone(signup_schema_types);
-        for (const property in flat_schema) {
-          delete flat_schema[property];
-          flat_schema[property] = "";
+        var flat_schema = structuredClone(signup_schema_types); //creo una copia profunda del schema de form de registro (viene de redux)
+        for (const property in flat_schema) { // recorro cada una de las propiedades del schema
+          delete flat_schema[property]; // elimino cada una de las propiedades del objeto
+          flat_schema[property] = ""; // { email : ' ' }
         }
-        setState(flat_schema);
-        setStateTypes(signup_schema_types);
+        setState(flat_schema); // state = {email: '', password: '', username : ''}
+        setStateTypes(signup_schema_types); // stateTypes = {email: { type: "text", value: '', required: true } ... },
       }
 
       if(option === 'signin'){
@@ -34,7 +34,7 @@ export default function Signin() {
         setStateTypes(signin_schema_types);
       }
     }
-    setErr(false)
+    setErr(false) // cada vez que cambio de opción/formulario, seteo el mensaje de error a false
   }, [option]);
 
   useEffect(()=>{
@@ -43,11 +43,10 @@ export default function Signin() {
 
   const handleValue = (evt) => {
     // it goes as formbuilder paramater so it handles inputs changes to local state
-    var value =
-      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
+    var value = evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
     setState({
-      ...state,
-      [evt.target.name]: value,
+      ...state, //copia el estado tal cual estaba en su estado previo
+      [evt.target.name]: value, //pero modifico el valor de la propiedad que me interesa
     });
   };
 
@@ -92,41 +91,13 @@ export default function Signin() {
               >SignUp</p>
           </div>
 
-          {state && option === 'signin' && (
-            <form
-              onSubmit={(e) => {handleSubmit(e)}}
-            >
-              {Object.entries(stateTypes).map((input, key) => (
-                <span key={key}>
-                  {renderRequiredInput(
-                    input,
-                    handleValue,
-                    key,
-                    true
-                  )}
-                </span>
-              ))}
-              <input type="submit" value={option}/>
-            </form>
+          {state && option === 'signin' && (            
+            renderForm(stateTypes, handleValue, handleSubmit)
           )}
-
-          {state && option === 'signup' && (
-            <form
-              onSubmit={(e) => {handleSubmit(e)}}
-            >
-              {Object.entries(stateTypes).map((input, key) => (
-                <span key={key}>
-                  {renderRequiredInput(
-                    input,
-                    handleValue,
-                    key,
-                    true
-                  )}
-                </span>
-              ))}
-              <input type="submit" value={option}/>
-            </form>
-          )} 
+          
+          {state && option === 'signup' && (            
+            renderForm(stateTypes, handleValue, handleSubmit)
+          )}
 
           {err && 
           <p style={{color: 'tomato', fontWeight: '700'}}>{err}</p>

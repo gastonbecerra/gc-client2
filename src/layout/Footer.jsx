@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <div style={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
+        display: 'flex',        
+        justifyContent: 'space-around',
         border: 'black solid 0.5px',
         marginTop: '10px',
-        padding: '10px'
+        padding: '10px',
+        flexDirection: 'row',
+        width: '60vw'
     }}>
         <div>
             <Link to={'/'}>

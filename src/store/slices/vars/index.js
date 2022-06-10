@@ -18,14 +18,14 @@ export const varSlice = createSlice({
         vars_status: null,
         var_schema_types: {
             // _id: {type: 'id'},
-            name: {type: 'text', value: '', required: true},
+            name: {type: 'text', value: '', required: true}, // {name: 'ingresos'}
             type: {type: 'options', value: '', options: ['currency', 'numeric', 'string'], required: true},
             description: {type: 'textarea', value: '', required: false},
             timeframe: {type: 'options', value: '', options: ['free', 'h', 'day', 'week', 'month', 'year'], required: true},
             measurement: { type: 'options', value: '', options: ['generic', 'US Dollar'], required: true},
-            created: {type: 'date', value: '', editable: false},
-            user: {type: 'text', value: '', editable: false},            
-            tags: {type: 'array', value: '', required: false},
+            created: {type: 'info', value: '', label:"Created at ",editable: false},
+            user: {type: 'info', value: '', label: "Created by ", editable: false},            
+            tags: {type: 'tags', value: '', required: false},
         }
     },
     reducers: {
@@ -72,6 +72,11 @@ export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
         method: 'put',
         data: {data}
     })
+    .catch((res)=>{
+        var vars = structuredClone(getState().vars.vars);
+        console.log(vars);
+        return res;
+    })
     .then((res)=>{        
         callbackState(res)
     })
@@ -84,6 +89,10 @@ export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
     Axios({
         url: `http://localhost:8080/vars/${var_id}/${user_id}`,
         method: 'delete',        
+    })
+    .then((res)=>{
+        dispatch(fetchVars())
+        return res;
     })
     .then((res)=>{        
         callbackState(res)

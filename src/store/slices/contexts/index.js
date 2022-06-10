@@ -19,12 +19,12 @@ export const contextSlice = createSlice({
             // _id: {type: 'id', value: ''},
             name: {type: 'text', value: ''},
             description: {type: 'textarea', value: ''},
-            rules: {type: 'array', value: ''},
-            subscribed: {type: 'info', value: ''},
-            circunscribed: {type: 'info', value: ''},
-            tags: {type: 'array', value: ''},
-            created: {type: 'info', value: '', editable: false},
-            user: {type: 'text', value: '', editable: false},   
+            rules: {type: 'tags', value: ''},
+            tags: {type: 'tags', value: []},
+            subscribed: {type: 'info', label: "N of subscribed ", value: undefined},
+            circunscribed: {type: 'info', label: "N of circunscribed ", value: undefined},
+            created: {type: 'info', label: "Created at ", value: '', editable: false},
+            user: {type: 'info', label: "Created by ", value: '', editable: false},   
         }
     },
     reducers: {

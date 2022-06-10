@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import Axios from 'axios';
+// import { v4 as uuidv4 } from 'uuid';
 
 export const userSlice = createSlice({
   name: "users",
@@ -10,13 +11,12 @@ export const userSlice = createSlice({
     token: false,
     email: false,
     signup_schema_types: {
-      username: { type: "text", value: "", required: true },
-      email: { type: "text", value: "", required: true },
+      username: { type: "text", value: "", required: true }, // input = [username, {...}] // input[1].required/value
+      email: {  type: "email", value: "", required: true },
       password: { type: "password", value: "", required: true },
     },
     signin_schema_types: {
-      // username: { type: "text", value: "", required: false },
-      email: { type: "text", value: 'coso', required: true },
+      email: { type: "email", value: '', required: true },
       password: { type: "password", value: "", required: true },
     },
   },
