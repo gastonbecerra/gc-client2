@@ -16,16 +16,22 @@ export const varSlice = createSlice({
     initialState: {
         vars: false,
         vars_status: null,
-        var_schema_types: {
-            // _id: {type: 'id'},
-            name: {type: 'text', value: '', required: true}, // {name: 'ingresos'}
-            type: {type: 'options', value: '', options: ['currency', 'numeric', 'string'], required: true},
-            description: {type: 'textarea', value: '', required: false},
-            timeframe: {type: 'options', value: '', options: ['free', 'h', 'day', 'week', 'month', 'year'], required: true},
-            measurement: { type: 'options', value: '', options: ['generic', 'US Dollar'], required: true},
-            created: {type: 'info', value: '', label:"Created at ",editable: false},
-            user: {type: 'info', value: '', label: "Created by ", editable: false},            
-            tags: {type: 'tags', value: '', required: false},
+        vars_schema : {
+            types: {
+                name: {type: 'text', value: '', required: true}, // {name: 'ingresos'}
+                type: {type: 'options', value: '', options: ['currency', 'numeric', 'string'], required: true},
+                description: {type: 'textarea', value: '', required: false},
+                timeframe: {type: 'options', value: '', options: ['free', 'h', 'day', 'week', 'month', 'year'], required: true},
+                measurement: { type: 'options', value: '', options: ['generic', 'US Dollar'], required: true},
+            },
+            info: {
+                created: {type: 'info', value: '', label:"Created at ",editable: false},
+                user: {type: 'info', value: '', label: "Created by ", editable: false},            
+                tags: {type: 'info', value: '', label: "Associated with ", required: false},
+                values: { type: 'info', value: 23, label: 'Values '},
+                dashboards: { type: 'info', value: 23, label: 'Present in samples '},
+                followers: { type: 'info', value: 23, label: 'Followers '}
+            }
         }
     },
     reducers: {

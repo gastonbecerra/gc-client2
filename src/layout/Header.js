@@ -1,9 +1,15 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
+import { isAuthenticated } from '../store/slices/user';
 
 export default function Header() {
     const {username} = useSelector(state => state.users);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+      dispatch(isAuthenticated());
+    },[username])
 
   return (
     <div style={{

@@ -6,7 +6,7 @@ export default function TestHome() {
     const [state, setState] = useState();
     const [stateTypes, setStateTypes] = useState(false); // state template para renderizado de tipos de inputs
     const { id, token, username, email, signin_schema_types } = useSelector((state) => state.users);
-
+    
     useEffect(()=>{
         var flat_schema = structuredClone(signin_schema_types);
         for (const property in flat_schema) {

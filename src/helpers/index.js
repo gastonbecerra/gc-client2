@@ -1,4 +1,5 @@
 import * as Input from '../components/inputs/index';
+import BaseInfoCard from '../components/inputs/info-types/BaseInfoCard';
 
 export const renderForm = (schema, handleValue, handleSubmit) => {
     return (
@@ -21,7 +22,24 @@ export const renderForm = (schema, handleValue, handleSubmit) => {
     )
 }
 
-//{/* : input[1].type === 'array' ? <Input.Array key={key} input={input} handleValue={handleValue}/>  */}
+export const renderInfo = (schema) => {
+    return(
+        <div
+            style={{
+                display:'flex',
+                flexWrap:'wrap',
+                flexDirection: 'row',                
+                fontStyle: 'normal',                
+                padding: '10px'
+
+            }}
+        >
+            {Object.entries(schema).map((item,i)=>(
+                <BaseInfoCard key={i} item={item}/>
+            ))}
+        </div>
+    )   
+}
 
 export const renderRequiredInput = (input, handleValue, key, mode) =>{
     let type;        
@@ -88,3 +106,4 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
     }
 
 }
+

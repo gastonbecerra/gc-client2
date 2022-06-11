@@ -10,15 +10,16 @@ export const userSlice = createSlice({
     username: false,
     token: false,
     email: false,
-    signup_schema_types: {
+    signup_schema_types: {      
       username: { type: "text", value: "", required: true }, // input = [username, {...}] // input[1].required/value
       email: {  type: "email", value: "", required: true },
       password: { type: "password", value: "", required: true },
     },
     signin_schema_types: {
+      // id: { type: "text", value: "", required: false }, 
       email: { type: "email", value: '', required: true },
       password: { type: "password", value: "", required: true },
-    },
+    }
   },
   reducers: {
     setUser: (state, action) => {
@@ -40,9 +41,11 @@ export const signin = (data, callbackState) => (dispatch, getState) =>{
         url: 'http://localhost:8080/login/signin',
         data: { data }
     })
-    .then((res)=>{
-        if(res.status === 200)
-        dispatch(setUser(res.data));
+    .then((res)=>{      
+        localStorage.setItem("user", JSON.stringify(res.data));
+    })
+    .then(()=>{
+      dispatch(isAuthenticated())
     })
     .catch((res)=>{
         callbackState(res);
@@ -56,8 +59,10 @@ export const signup = (data, callbackState) => (dispatch, getState) =>{
         data: { data }
     })
     .then((res)=>{
-      if(res.status === 200)
-        dispatch(setUser(res.data));
+      localStorage.setItem("user", JSON.stringify(res.data));
+    })
+    .then(()=>{
+      dispatch(isAuthenticated())
     })
     .catch((res)=>{
         callbackState(res);
@@ -65,7 +70,9 @@ export const signup = (data, callbackState) => (dispatch, getState) =>{
 }
 
 export const logout = () => (dispatch) => {
-    var data = {
+  localStorage.removeItem("user");
+
+  var data = {
         id : '',
         email : '',
         token : '',
@@ -74,5 +81,8 @@ export const logout = () => (dispatch) => {
     dispatch(setUser(data))
 }
 
-
-
+export const isAuthenticated = () => (dispatch) => {
+  if(localStorage.getItem("userAuth") && localStorage.getItem("user")){
+    dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
+  }
+}
