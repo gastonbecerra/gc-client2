@@ -1,6 +1,7 @@
 import * as Input from '../components/inputs/index';
 import BaseInfoCard from '../components/inputs/info-types/BaseInfoCard';
 
+
 export const renderForm = (schema, handleValue, handleSubmit) => {
     return (
         <form onSubmit={handleSubmit}>
@@ -29,8 +30,8 @@ export const renderInfo = (schema) => {
                 display:'flex',
                 flexWrap:'wrap',
                 flexDirection: 'row',                
-                fontStyle: 'normal',                
-                padding: '10px'
+                fontStyle: 'normal',                                
+                
 
             }}
         >

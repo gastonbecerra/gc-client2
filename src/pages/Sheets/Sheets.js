@@ -15,7 +15,7 @@ export default function SheetIndex() {
     return(
         <div>
 
-            <ListComponent list={ sheets } />
+            <ListComponent type={'sheets'} list={ sheets } />
 
         </div>
     );

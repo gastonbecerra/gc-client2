@@ -48,13 +48,13 @@ export const contextSlice = createSlice({
             state.contexts_status = 'failed';
         }
     }
- })
+})
 
 export default contextSlice.reducer;
 
 export const { setContexts } = contextSlice.actions;
 
-export const postContext = (data, callbackState) => (dispatch, getState) =>{
+export const postContexts = (data, callbackState) => (dispatch, getState) =>{
     Axios({
         url: 'http://localhost:8080/contexts',
         method: 'post',
@@ -68,24 +68,11 @@ export const postContext = (data, callbackState) => (dispatch, getState) =>{
     })
 }
 
-export const putContext = (data, id, callbackState) => (dispatch, getState) =>{
+export const putContexts = (data, id, callbackState) => (dispatch, getState) =>{
     Axios({
         url: `http://localhost:8080/contexts/${id}`,
         method: 'put',
         data: {data}
-    })
-    .then((res)=>{        
-        callbackState(res)
-    })
-    .catch((res)=>{
-        callbackState(res)
-    })
- }
-
- export const deleteContexts = ( context_id, user_id, callbackState) => (dispatch, getState) =>{
-    Axios({
-        url: `http://localhost:8080/contexts/${context_id}/${user_id}`,
-        method: 'delete',        
     })
     .then((res)=>{
         dispatch(fetchContexts())
@@ -97,4 +84,21 @@ export const putContext = (data, id, callbackState) => (dispatch, getState) =>{
     .catch((res)=>{
         callbackState(res)
     })
+ }
+
+ export const deleteContexts = ( context_id, user_id) => (dispatch, getState) =>{
+    Axios({
+        url: `http://localhost:8080/contexts/${context_id}/${user_id}`,
+        method: 'delete',        
+    })
+    .then((res)=>{
+        dispatch(fetchContexts())
+        return res;
+    })
+    // .then((res)=>{        
+    //     callbackState(res)
+    // })
+    // .catch((res)=>{
+    //     callbackState(res)
+    // })
  }

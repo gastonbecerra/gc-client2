@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+
     <div style={{
         display: 'flex',        
         justifyContent: 'space-around',
@@ -18,12 +20,12 @@ export default function Footer() {
             </Link>
         </div>
         <div>
-            <Link to={'/data'}>
+            <Link to={`/data`} state={{type: 'open'}}>
                 Data
             </Link>
         </div>
         <div>
-            <Link to={'/sheets'}>
+            <Link to={`/data`} state={{type: 'sheets'}}>
             Sheets
             </Link>
         </div>
@@ -33,5 +35,6 @@ export default function Footer() {
             </Link>
         </div>
     </div>
+      </div>
   )
 }

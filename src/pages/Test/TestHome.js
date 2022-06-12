@@ -18,9 +18,6 @@ export default function TestHome() {
     },[])
 
     const handleValue = (evt) => {
-        // it goes as formbuilder paramater so it handles inputs changes to local state
-        //evt.preventDefault()
-        console.log(evt.target.value);
         var value =
           evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
         setState({

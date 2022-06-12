@@ -11,6 +11,9 @@ import Signin from './pages/Login/Signin';
 import Footer from './layout/Footer';
 import Header from './layout/Header';
 import TestHome from './pages/Test/TestHome';
+import SheetModal from './pages/Sheets/SheetModal';
+
+
 function App() {
 
   return (
@@ -23,8 +26,8 @@ function App() {
     <Routes>
       <Route exact path="/" element={<HomeIndex />}/>
       <Route exact path="/sheets" element={<SheetIndex />}/>
-      <Route exact path="/data" element={<DataIndex />}/>
-      <Route exact path="/data/:type/:id" element={<DataModal />}/>
+      <Route exact path="/data" element={<DataIndex />}/>      
+      <Route path="/data/:type/:id" element={<DataModal />}/>
       <Route exact path="/signin" element={<Signin />}/>
       <Route exact path="/test" element={<TestHome />}/>
     </Routes>
