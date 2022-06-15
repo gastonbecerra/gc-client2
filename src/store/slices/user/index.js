@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
 import Axios from 'axios';
 // import { v4 as uuidv4 } from 'uuid';
 
@@ -15,8 +14,7 @@ export const userSlice = createSlice({
       email: {  type: "email", value: "", required: true },
       password: { type: "password", value: "", required: true },
     },
-    signin_schema_types: {
-      // id: { type: "text", value: "", required: false }, 
+    signin_schema_types: {      
       email: { type: "email", value: '', required: true },
       password: { type: "password", value: "", required: true },
     }
@@ -82,7 +80,7 @@ export const logout = () => (dispatch) => {
 }
 
 export const isAuthenticated = () => (dispatch) => {
-  if(localStorage.getItem("userAuth") && localStorage.getItem("user")){
+  if(localStorage.getItem("user")){
     dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
   }
 }

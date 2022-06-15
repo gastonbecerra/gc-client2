@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { signin, signup, logout } from "../../store/slices/user";
-import { renderRequiredInput, renderForm } from "../../helpers";
-import Axios from "axios";
+import { renderForm } from "../../helpers";
 
 export default function Signin() {
   const [option, setOption] = useState("signin");
   const dispatch = useDispatch();
-  const { id, token, username, email, signup_schema_types, signin_schema_types } = useSelector((state) => state.users);
+  const { id, username  } = useSelector((state) => state.users);
+  const schema = useSelector((state) => state['users'][`${option}_schema_types`]);
   const [state, setState] = useState();
   const [stateTypes, setStateTypes] = useState(false); // state template para renderizado de tipos de inputs
   const [ err, setErr ] = useState(false);
+  const objectFunctions = {
+    signin: function (a,b) {
+      dispatch(signin(a,b));
+    },
+    signup: function (a,b) {
+      dispatch(signup(a,b));
+    }
+  }
 
   useEffect(() => {
-    if (!id) {
-      if(option === 'signup'){
-        var flat_schema = structuredClone(signup_schema_types); //creo una copia profunda del schema de form de registro (viene de redux)
+    if (!id) {      
+        var flat_schema = structuredClone(schema); //creo una copia profunda del schema de form de registro (viene de redux)
         for (const property in flat_schema) { // recorro cada una de las propiedades del schema
           delete flat_schema[property]; // elimino cada una de las propiedades del objeto
           flat_schema[property] = ""; // { email : ' ' }
         }
         setState(flat_schema); // state = {email: '', password: '', username : ''}
-        setStateTypes(signup_schema_types); // stateTypes = {email: { type: "text", value: '', required: true } ... },
-      }
-
-      if(option === 'signin'){
-        var flat_schema = structuredClone(signin_schema_types);
-        for (const property in flat_schema) {
-          delete flat_schema[property];
-          flat_schema[property] = "";
-        }
-        setState(flat_schema);
-        setStateTypes(signin_schema_types);
-      }
+        setStateTypes(schema); // stateTypes = {email: { type: "text", value: '', required: true } ... },
     }
     setErr(false) // cada vez que cambio de opción/formulario, seteo el mensaje de error a false
   }, [option]);
@@ -52,20 +48,22 @@ export default function Signin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    option === 'signin' 
-    ? dispatch(signin(state, callbackState))
-    : dispatch(signup(state, callbackState))
+    try{
+      {objectFunctions[`${option}`](state, callbackState)}      
+    }catch(e){
+      console.log(e);
+    }
   };
 
-  const callbackState = (response) => {
-    console.log(response.response.data);
+  const callbackState = (response) => {    
     try{
       if(response.status !== 200 ){
         setErr(response.response.data)
-      }
+      }      
     }catch(e){
       console.log(`error ${option}`);
     }
+    setOption(option)
   };
 
   return (
