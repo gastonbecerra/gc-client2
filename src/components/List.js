@@ -1,21 +1,18 @@
 import React from "react";
 import CreateButtonComponent from "./CreateButton";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { deleteVar } from "../store/slices/vars";
-import { useSelector, useDispatch } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export default function ListComponent({ list, type }) {
+export default function ListComponent({ list, type, handleDelete }) {
   const { id } = useSelector((state) => state.users);
-  const navigate = useNavigate();
   const location = useLocation();
-
+  
   const HandleNavigation = ({ item }) => {
-    let path;
-    if (location.pathname.includes("data")) {
-      path = `${location.pathname}/${type}/${item._id}`;
-    } else {
-      path = `${location.pathname}/${item._id}`;
-    }
+    
+    let path = `${location.pathname}/${type}/${item._id}`;
+    // if(location.pathname.includes('sheet')){
+    //   path = `data/${type}/${item._id}`;
+    // }
     return (
       <Link to={path}>
         <li>{item.name}</li>
@@ -23,14 +20,10 @@ export default function ListComponent({ list, type }) {
     );
   };
 
-  const handleDelete = (e, item_user) => {
-    e.preventDefault();
-    alert('td delete functions');
-  };
   return (
     <>
       <div>
-        <h2>lo que sea que listamos</h2>
+        <h2>List {type}</h2>
       </div>
       <div>
         {list &&
@@ -52,7 +45,7 @@ export default function ListComponent({ list, type }) {
                     right: "30%",
                   }}
                   onClick={(e) => {
-                    handleDelete(e, item.user);
+                    handleDelete(item._id, item.user);
                   }}
                 >
                   -

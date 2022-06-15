@@ -15,16 +15,20 @@ export const contextSlice = createSlice({
     initialState: {
         contexts: false,
         contexts_status: null,
-        context_schema_types: { //this is used as a template to geerate dinamic inputs
-            // _id: {type: 'id', value: ''},
-            name: {type: 'text', value: ''},
-            description: {type: 'textarea', value: ''},
-            rules: {type: 'tags', value: ''},
-            tags: {type: 'tags', value: []},
-            subscribed: {type: 'info', label: "N of subscribed ", value: undefined},
-            circunscribed: {type: 'info', label: "N of circunscribed ", value: undefined},
-            created: {type: 'info', label: "Created at ", value: '', editable: false},
-            user: {type: 'info', label: "Created by ", value: '', editable: false},   
+        contexts_schema : {
+            types : {
+                name: {type: 'text', value: ''},
+                description: {type: 'textarea', value: ''},
+                rules: {type: 'tags', value: ''},
+                tags: {type: 'tags', value: []},
+            },
+            info: {
+                subscribed: {type: 'info', label: "N of subscribed ", value: undefined},
+                circunscribed: {type: 'info', label: "N of circunscribed ", value: undefined},
+                samples: {type: 'info', label: "N of samples ", value: undefined},
+                created: {type: 'info', label: "Created at ", value: '', editable: false},
+                user: {type: 'info', label: "Created by ", value: '', editable: false},   
+            }
         }
     },
     reducers: {
@@ -44,13 +48,13 @@ export const contextSlice = createSlice({
             state.contexts_status = 'failed';
         }
     }
- })
+})
 
 export default contextSlice.reducer;
 
 export const { setContexts } = contextSlice.actions;
 
-export const postContext = (data, callbackState) => (dispatch, getState) =>{
+export const postContexts = (data, callbackState) => (dispatch, getState) =>{
     Axios({
         url: 'http://localhost:8080/contexts',
         method: 'post',
@@ -64,12 +68,15 @@ export const postContext = (data, callbackState) => (dispatch, getState) =>{
     })
 }
 
-
-export const putContext = (data, id, callbackState) => (dispatch, getState) =>{
+export const putContexts = (data, id, callbackState) => (dispatch, getState) =>{
     Axios({
         url: `http://localhost:8080/contexts/${id}`,
         method: 'put',
         data: {data}
+    })
+    .then((res)=>{
+        dispatch(fetchContexts())
+        return res;
     })
     .then((res)=>{        
         callbackState(res)
@@ -77,4 +84,21 @@ export const putContext = (data, id, callbackState) => (dispatch, getState) =>{
     .catch((res)=>{
         callbackState(res)
     })
+ }
+
+ export const deleteContexts = ( context_id, user_id) => (dispatch, getState) =>{
+    Axios({
+        url: `http://localhost:8080/contexts/${context_id}/${user_id}`,
+        method: 'delete',        
+    })
+    .then((res)=>{
+        dispatch(fetchContexts())
+        return res;
+    })
+    // .then((res)=>{        
+    //     callbackState(res)
+    // })
+    // .catch((res)=>{
+    //     callbackState(res)
+    // })
  }

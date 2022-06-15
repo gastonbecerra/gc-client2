@@ -16,16 +16,22 @@ export const varSlice = createSlice({
     initialState: {
         vars: false,
         vars_status: null,
-        var_schema_types: {
-            // _id: {type: 'id'},
-            name: {type: 'text', value: '', required: true}, // {name: 'ingresos'}
-            type: {type: 'options', value: '', options: ['currency', 'numeric', 'string'], required: true},
-            description: {type: 'textarea', value: '', required: false},
-            timeframe: {type: 'options', value: '', options: ['free', 'h', 'day', 'week', 'month', 'year'], required: true},
-            measurement: { type: 'options', value: '', options: ['generic', 'US Dollar'], required: true},
-            created: {type: 'info', value: '', label:"Created at ",editable: false},
-            user: {type: 'info', value: '', label: "Created by ", editable: false},            
-            tags: {type: 'tags', value: '', required: false},
+        vars_schema : {
+            types: {
+                name: {type: 'text', value: '', required: true}, // {name: 'ingresos'}
+                type: {type: 'options', value: '', options: ['currency', 'numeric', 'string'], required: true},
+                description: {type: 'textarea', value: '', required: false},
+                timeframe: {type: 'options', value: '', options: ['free', 'h', 'day', 'week', 'month', 'year'], required: true},
+                measurement: { type: 'options', value: '', options: ['generic', 'US Dollar'], required: true},
+            },
+            info: {
+                created: {type: 'info', value: '', label:"Created at ",editable: false},
+                user: {type: 'info', value: '', label: "Created by ", editable: false},            
+                tags: {type: 'info', value: '', label: "Associated with ", required: false},
+                values: { type: 'info', value: 23, label: 'Values '},
+                dashboards: { type: 'info', value: 23, label: 'Present in samples '},
+                followers: { type: 'info', value: 23, label: 'Followers '}
+            }
         }
     },
     reducers: {
@@ -51,11 +57,15 @@ export const { setVars } = varSlice.actions;
 
 export default varSlice.reducer;
 
-export const postVar = (data, callbackState) => (dispatch, getState) =>{
+export const postVars = (data, callbackState) => (dispatch, getState) =>{
     Axios({
         url: 'http://localhost:8080/vars',
         method: 'post',
         data: {data}
+    })
+    .then((res)=>{
+        dispatch(fetchVars())
+        return res;
     })
     .then((res)=>{
         callbackState(res);
@@ -66,29 +76,11 @@ export const postVar = (data, callbackState) => (dispatch, getState) =>{
 }
 
 
-export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
+export const putVars = (data, id, callbackState) => (dispatch, getState) =>{
     Axios({
         url: `http://localhost:8080/vars/${id}`,
         method: 'put',
         data: {data}
-    })
-    .catch((res)=>{
-        var vars = structuredClone(getState().vars.vars);
-        console.log(vars);
-        return res;
-    })
-    .then((res)=>{        
-        callbackState(res)
-    })
-    .catch((res)=>{
-        callbackState(res)
-    })
- }
-
- export const deleteVar = ( var_id, user_id, callbackState) => (dispatch, getState) =>{
-    Axios({
-        url: `http://localhost:8080/vars/${var_id}/${user_id}`,
-        method: 'delete',        
     })
     .then((res)=>{
         dispatch(fetchVars())
@@ -101,5 +93,23 @@ export const putVar = (data, id, callbackState) => (dispatch, getState) =>{
         callbackState(res)
     })
  }
+
+ export const deleteVars =
+   (var_id, user_id, callbackState) => (dispatch, getState) => {
+     Axios({
+       url: `http://localhost:8080/vars/${var_id}/${user_id}`,
+       method: "delete",
+     })
+       .then((res) => {
+         dispatch(fetchVars());
+         return res;
+       })
+       .then((res) => {
+         callbackState(res);
+       })
+       .catch((res) => {
+         callbackState(res);
+       });
+   };
 
 
