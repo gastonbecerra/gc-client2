@@ -7,6 +7,7 @@ import { renderForm } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import StatsInfo from "../../components/StatsInfo";
 import { fetchSheets } from "../../store/slices/sheets";
+import SheetModal from "../Sheets/SheetModal";
 
 export default function DataModal(props) {
   /*------------------State variables------------------*/
@@ -114,11 +115,17 @@ export default function DataModal(props) {
         {state && renderForm(stateTypes, handleValue, handleSubmit)}
       </div>
 
-      <div>{state && !modeNew && <StatsInfo type={type} item={state} />}</div>
-
-      <div>
-        <h2>Feed</h2>
-      </div>
+      {type === ('vars' || 'contexts') &&
+      <>
+        <div>{state && !modeNew && <StatsInfo type={type} item={state} />}</div>
+        <div>
+          <h2>Feed</h2>
+        </div>
+      </>
+      }
+      
+      {!modeNew && type === 'sheets' && <SheetModal state={state}/> }
+  
     </div>
   );
 }

@@ -30,8 +30,8 @@ export default function Footer() {
             </Link>
         </div>
         <div>
-            <Link to={'/test'}>
-                Feed
+            <Link to={'/research'}>
+                Research
             </Link>
         </div>
     </div>

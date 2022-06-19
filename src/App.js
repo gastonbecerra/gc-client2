@@ -12,7 +12,7 @@ import Footer from './layout/Footer';
 import Header from './layout/Header';
 import TestHome from './pages/Test/TestHome';
 import SheetModal from './pages/Sheets/SheetModal';
-
+import ResearchIndex from './pages/Research/ResearchIndex';
 
 function App() {
   
@@ -30,6 +30,7 @@ function App() {
       <Route path="/data/:type/:id" element={<DataModal />}/>
       <Route exact path="/signin" element={<Signin />}/>
       <Route exact path="/test" element={<TestHome />}/>
+      <Route exact path="/research" element={<ResearchIndex />}/>
     </Routes>
 
     <Footer/>

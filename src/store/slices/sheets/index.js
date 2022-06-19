@@ -1,6 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import Axios from 'axios';
-import { useDispatch } from 'react-redux';
 
 export const fetchSheets = createAsyncThunk(
     'sheets/fetchSheets',   
@@ -19,11 +17,12 @@ export const sheetSlice = createSlice({
         sheets_status : null,
         sheets_schema : {
             types: {
-                vars: {type: 'selectVars', value: undefined, required: true},
+                vars: {type: 'selectType', value: undefined, required: true},
                 share: {type: 'boolean', value: false},
                 description: {type: 'textarea', value: '', required: false},
                 chart: {type: 'chart', value: ''},
-                tags: {type: 'tagas', value: ''}
+                tags: {type: 'tagas', value: ''},
+                contexts: {type: 'selectType', value: ''}
             },
             info:{
                 created: {type: 'info', value: '', label:"Created at ",editable: false},

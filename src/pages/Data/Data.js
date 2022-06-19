@@ -6,11 +6,13 @@ import { fetchVars, deleteVars } from "../../store/slices/vars";
 import { useLocation } from "react-router-dom";
 import { fetchSheets } from '../../store/slices/sheets';
 
+//LIST CONTEXTS, VARS OR SHEETS
+
 export default function DataIndex(props) {    
-    const {type} = useLocation().state
-    const [ election, setElection ] = useState(type === 'open' ? 'vars' : type)
-    const status = useSelector(state=> state[election][`${election}_status`])    
-    const  items  = useSelector(state=> state[election][election])     
+    const { type } = useLocation().state;
+    const [ election, setElection ] = useState(type === 'open' ? 'vars' : type); // choose btw vars and contexts
+    const  items  = useSelector(state=> state[election][election]);         
+    const status = useSelector(state=> state[election][`${election}_status`]);        
     const dispatch = useDispatch();
     const objectFunctions = {
         fetchvars: function(){
@@ -30,8 +32,9 @@ export default function DataIndex(props) {
         }
     }
 
+    //ON INIT AND WHENEVER TYPEA AND STATUS CHANGE
     useEffect(()=>{
-        setElection(type !== 'sheets' ? 'vars' : 'sheets')
+        setElection(type !== 'sheets' ? 'vars' : 'sheets') 
          if(status !== 'success') {objectFunctions[`fetch${election}`]()}
     },[type, status])
 
@@ -51,7 +54,12 @@ export default function DataIndex(props) {
         }
 
             <div>
-                {items !== false && <ListComponent type={election} list={items} handleDelete={handleDelete}/>}
+                {items !== false && 
+                    <ListComponent 
+                        type={election} 
+                        list={items} 
+                        handleDelete={handleDelete}
+                    />}
             </div>        
         </div>
     );

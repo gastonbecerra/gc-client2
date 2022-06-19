@@ -44,7 +44,7 @@ export const contextSlice = createSlice({
             state.contexts = payload;
             state.contexts_status = 'success';
         },
-        [fetchContexts.pending] : (state, action) => {
+        [fetchContexts.rejected] : (state, action) => {
             state.contexts_status = 'failed';
         }
     }

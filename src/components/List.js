@@ -7,12 +7,8 @@ export default function ListComponent({ list, type, handleDelete }) {
   const { id } = useSelector((state) => state.users);
   const location = useLocation();
   
-  const HandleNavigation = ({ item }) => {
-    
+  const HandleNavigation = ({ item }) => {    
     let path = `${location.pathname}/${type}/${item._id}`;
-    // if(location.pathname.includes('sheet')){
-    //   path = `data/${type}/${item._id}`;
-    // }
     return (
       <Link to={path}>
         <li>{item.name}</li>

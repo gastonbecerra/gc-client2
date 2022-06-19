@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
 import Axios from 'axios';
 
 export const fetchVars = createAsyncThunk(
@@ -19,7 +18,7 @@ export const varSlice = createSlice({
         vars_schema : {
             types: {
                 name: {type: 'text', value: '', required: true}, // {name: 'ingresos'}
-                type: {type: 'options', value: '', options: ['currency', 'numeric', 'string'], required: true},
+                type: {type: 'options', value: '', options: ['currency', 'numeric', 'string', 'object'], required: true},
                 description: {type: 'textarea', value: '', required: false},
                 timeframe: {type: 'options', value: '', options: ['free', 'h', 'day', 'week', 'month', 'year'], required: true},
                 measurement: { type: 'options', value: '', options: ['generic', 'US Dollar'], required: true},
