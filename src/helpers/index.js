@@ -1,7 +1,6 @@
 import * as Input from '../components/inputs/index';
 import BaseInfoCard from '../components/inputs/info-types/BaseInfoCard';
 
-
 export const renderForm = (schema, handleValue, handleSubmit) => {
     return (
         <form onSubmit={(e)=>handleSubmit(e)}>
@@ -15,6 +14,7 @@ export const renderForm = (schema, handleValue, handleSubmit) => {
                     : input[1].type === 'textarea' ? <Input.Textarea key={key} input={input} handleValue={handleValue}/> 
                     : input[1].type === 'info' ? <Input.Info key={key} input={input}/> 
                     : input[1].type === 'tags' ? <Input.Tags key={key} input={input} handleValue={handleValue}/> 
+                    : input[1].type === 'selectType' ? <Input.SelectType key={key} input={input} handleValue={handleValue}/> 
                     : input[1].type === 'date' ? <Input.Dates key={key} input={input} handleValue={handleValue}/> : null
                 ))
             }

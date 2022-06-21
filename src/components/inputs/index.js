@@ -8,3 +8,4 @@ export { default as Options } from './input-types/Options';
 export { default as Password } from './input-types/Password';
 export { default as Email } from './input-types/Email';
 export { default as Info } from './input-types/Info';
+export { default as SelectType } from './input-types/SelectType';

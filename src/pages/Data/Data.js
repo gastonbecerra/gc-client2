@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { deleteContexts, fetchContexts } from "../../store/slices/contexts";
 import { fetchVars, deleteVars } from "../../store/slices/vars";
 import { useLocation } from "react-router-dom";
-import { fetchSheets } from '../../store/slices/sheets';
+import { deleteSheets, fetchSheets } from '../../store/slices/sheets';
 
 //LIST CONTEXTS, VARS OR SHEETS
 
@@ -29,6 +29,9 @@ export default function DataIndex(props) {
         },
         deletevars: function(a,b){
             dispatch(deleteVars(a,b))
+        },
+        deletesheets: function(a,b){
+            dispatch(deleteSheets(a,b))
         }
     }
 

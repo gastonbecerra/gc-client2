@@ -1,156 +1,65 @@
 import React, {useState, useEffect, useRef} from 'react'
 
 export default function Tags({input, handleValue}) {
-  const [indexs, setIndexs] = useState([]);
-  const [data, setData] = useState(undefined);
-  const [id, setId] = useState(undefined);
-  const [value, setValue] = useState(undefined);
-  const [required, setRequired] = useState(undefined);
+  const [data, setData] = useState(input);
+  const [id, setId] = useState(data[0]);
+  const [value, setValue] = useState(data[1].value);
+  const [required, setRequired] = useState(data[1].required);
   
-  useEffect(()=>{ 
-    try{
-      input[1].value.length > 0 && setIndexs(input[1].value) 
-      setData(input)
-      setId(input[0])
-      setRequired(input[1].required)    
-      setValue(input[1].value)
-    }catch(e){
-
-    }
-  },[])
-  
-  const handleInput = (e) => {
-  console.log(e.key);
-    if((e.key === ',')){
-        var tag = document.getElementById(`tagger`);
-        console.log(tag.value);        
-        setIndexs([
-          ...indexs,
-          tag
-        ])
-        // tag.value = '';
-    }
+  const handleChange = (val) => {
+    console.log(val);
+    var values = [...value];
+    const index = values.findIndex(v => v === val);
+    index === -1 ? values.push(val) : values.splice(index, 1) ;
+    setValue(values);    
   }
 
-  const removeIndex = (index) => {
-    setIndexs([
-      indexs.filter(i => i !== index)
-    ])
+  const handleInput = (evt) => {    
+    if(evt.key === 'Enter'){
+      evt.preventDefault();
+      var text = document.getElementById(id).value;
+      var values = [...value];
+      values = values.filter(v => v.length > 3);
+      if(text.length > 3){
+        const index = values.findIndex(v => v === text);
+        index === -1 ? values.push(text) : values.splice(index, 1) ;
+        setValue(values);
+        document.getElementById(id).value = '';  
+      }
+      document.getElementById(id).value = '';
+    };
+  }
+
+  const removeTag = (val) => {    
+    var values = [...value];
+    const index = values.findIndex(v => v === val);
+    if(index !== -1) values.splice(index, 1);
+    setValue(values);
   }
 
   useEffect(()=>{
-    try{
-      if(indexs.length > 0){
-        var event = {
-          target: {
-            name: `${id}`,
-            value: indexs
-          }
-        }
-        handleValue(event)
-      }
-    }catch(e){
-      console.log('err filtering array');
-    }
-  },[indexs])
+    console.log(value);
+  },[value])
 
   return (
     <>
-        <label htmlFor={id}>{id}</label>
-        <br></br>
+        <label htmlFor={id}>{id}</label>        
         <input 
-          type="text" 
-          id="tagger" 
-          name="tags" 
-          placeholder="input options by pressing , " 
+          required={required}
+          name={'tags'} 
+          id={'tags'} 
+          type="text"
+          value={undefined}                   
           onKeyDown={(e)=>{handleInput(e)}}
+          placeholder="Press Enter to add a tag"
         />      
   <div>
-    {indexs.length > 0 &&
-      indexs.map((i,y)=>(
-          <span 
-              onClick={()=> removeIndex(i)}
-              key={y} 
-              >
-                { ' ' } <span style={{backgroundColor: 'lightgray'}}>{i}</span> {' ' }
-            </span>
-      ))
-    }
   </div>
-    
-  <br></br>
+  
+    {value && value.map((i,y)=>(
+      <><span style={{backgroundColor: 'lightgray'}}> {i !== '' && i} </span><span onClick={(e)=>removeTag(i)}>(x)</span></>
+    ))}
+     <br></br> 
     </>
   )
 }
-
-// import React, {useState, useEffect, useRef} from 'react'
-
-// export default function Array({id, handleValue, value}) {
-//   const [indexs, setIndexs] = useState([]);
-  
-  
-//   const handleInput = (e) => {
-//     if((e.key === ',')){
-//         var ta = document.getElementById(`${id}`);
-//         var tag = ta.value;
-//         setIndexs([
-//           ...indexs,
-//           tag
-//         ])
-//         ta.value = '';
-//     }
-//   }
-
-//   const removeIndex = (index) => {
-//     setIndexs([
-//       indexs.filter(i => i !== index)
-//     ])
-//   }
-//   useEffect(()=>{
-//       value && setIndexs([...value])
-//   },[])
-
-//   useEffect(()=>{
-//     try{
-//       if(indexs.length > 0){
-//         var event = {
-//           target: {
-//             name: `${id}`,
-//             value: indexs
-//           }
-//         }
-//         handleValue(event)
-//       }
-//     }catch(e){
-//       console.log('err filtering array');
-//     }
-//   },[indexs])
-
-//   return (
-//     <>
-//         <label htmlFor={id}>{id}</label>
-//         <br></br>
-//         <input 
-//           type="text" 
-//           id="tags" 
-//           name="tags" 
-//           placeholder="input options by , or Enter" 
-//           onKeyDown={(e)=>{handleInput(e)}}
-//         />      
-//   <div>
-//     {indexs.length > 0 &&
-//       indexs.map((i,y)=>(
-//           <span 
-//               onClick={()=> removeIndex(i)}
-//               key={y} 
-//               >
-//                 { ' ' } <span style={{backgroundColor: 'lightgray'}}>{i}</span> {' ' }
-//             </span>
-//       ))
-//     }
-//   </div>
-    
-//   <br></br>
-//     </>
-//   )
-// }

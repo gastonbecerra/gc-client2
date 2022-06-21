@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import Axios from 'axios';
 
 export const fetchSheets = createAsyncThunk(
     'sheets/fetchSheets',   
@@ -17,12 +18,13 @@ export const sheetSlice = createSlice({
         sheets_status : null,
         sheets_schema : {
             types: {
-                vars: {type: 'selectType', value: undefined, required: true},
-                share: {type: 'boolean', value: false},
+                name: {type: 'text', value: null, required: true}, 
                 description: {type: 'textarea', value: '', required: false},
+                vars: {type: 'selectType', value: undefined, required: true},
+                contexts: {type: 'selectType', value: ''},
+                share: {type: 'boolean', value: true},
                 chart: {type: 'chart', value: ''},
-                tags: {type: 'tagas', value: ''},
-                contexts: {type: 'selectType', value: ''}
+                tags: {type: 'tags', value: []},
             },
             info:{
                 created: {type: 'info', value: '', label:"Created at ",editable: false},
@@ -56,15 +58,51 @@ export const sheetSlice = createSlice({
 export const {setSheets} = sheetSlice.actions;
 export default sheetSlice.reducer;
 
-// export const fetchSheets = () => (dispatch) => {
-//     Axios({
-//         method: 'get',
-//         url: 'http://localhost:8080/sheets',
-//         withCredentials: true
-//         }).then((response)=>{   
-//         dispatch(setSheets(response.data));
-//     })
-//     .catch((e)=>{
-//         console.log('failure fetching sheets');
-//     })
-// }
+export const postSheets = (data, callbackState) => (dispatch, getState) =>{
+    Axios({
+        url: 'http://localhost:8080/sheets',
+        method: 'post',
+        data: {data}
+    })
+    .then((res)=>{
+        callbackState(res);
+    })
+    .catch((res)=>{
+        callbackState(res);
+    })
+}
+
+export const putSheets = (data, id, callbackState) => (dispatch, getState) =>{
+    Axios({
+        url: `http://localhost:8080/sheets/${id}`,
+        method: 'put',
+        data: {data}
+    })
+    .then((res)=>{
+        dispatch(fetchSheets())
+        return res;
+    })
+    .then((res)=>{        
+        callbackState(res)
+    })
+    .catch((res)=>{
+        callbackState(res)
+    })
+ }
+
+ export const deleteSheets = ( sheet_id, user_id) => (dispatch, getState) =>{
+    Axios({
+        url: `http://localhost:8080/sheets/${sheet_id}/${user_id}`,
+        method: 'delete',        
+    })
+    .then((res)=>{
+        dispatch(fetchSheets())
+        return res;
+    })
+    // .then((res)=>{        
+    //     callbackState(res)
+    // })
+    // .catch((res)=>{
+    //     callbackState(res)
+    // })
+ }

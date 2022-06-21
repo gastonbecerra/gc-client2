@@ -6,7 +6,7 @@ import {fetchContexts,postContexts,putContexts,} from "../../store/slices/contex
 import { renderForm } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import StatsInfo from "../../components/StatsInfo";
-import { fetchSheets } from "../../store/slices/sheets";
+import { fetchSheets, deleteSheets, putSheets, postSheets } from "../../store/slices/sheets";
 import SheetModal from "../Sheets/SheetModal";
 
 export default function DataModal(props) {
@@ -41,7 +41,13 @@ export default function DataModal(props) {
     },
     postcontexts: function (a, b) {
       dispatch(postContexts(a, b));
-    }
+    },
+    putsheets: function (a, b, c) {
+      dispatch(putSheets(a, b, c));
+    },
+    postsheets: function (a, b) {
+      dispatch(postSheets(a, b));
+    },
   };
 
   /*------------------Life cycle logic------------------*/
@@ -105,6 +111,10 @@ export default function DataModal(props) {
     }
   };
 
+  useEffect(() => {
+    console.log(state);
+  },[state])
+
   return (
     <div>
       <h1>
@@ -115,16 +125,16 @@ export default function DataModal(props) {
         {state && renderForm(stateTypes, handleValue, handleSubmit)}
       </div>
 
-      {type === ('vars' || 'contexts') &&
+      
       <>
         <div>{state && !modeNew && <StatsInfo type={type} item={state} />}</div>
         <div>
           <h2>Feed</h2>
         </div>
       </>
-      }
       
-      {!modeNew && type === 'sheets' && <SheetModal state={state}/> }
+      
+      {/* {!modeNew && type === 'sheets' && <SheetModal state={state}/> } */}
   
     </div>
   );
