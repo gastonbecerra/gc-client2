@@ -7,7 +7,6 @@ import { renderForm } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import StatsInfo from "../../components/StatsInfo";
 import { fetchSheets, deleteSheets, putSheets, postSheets } from "../../store/slices/sheets";
-import SheetModal from "../Sheets/SheetModal";
 
 export default function DataModal(props) {
   /*------------------State variables------------------*/
@@ -116,9 +115,34 @@ export default function DataModal(props) {
   },[state])
 
   return (
-    <div>
-      <h1>
-        {modeNew ? "Creando" : "Editando"} {type}{" "}
+    <>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-around',
+        maxWidth: '500px'
+      }}>
+        <b onClick={()=> id !== 'create' ? setModeNew(false): null} style={{backgroundColor: !modeNew ? 'lightgrey' : null}}>Overview</b>
+        <b>/</b>
+        <b onClick={()=> setModeNew(true) } style={{backgroundColor: modeNew ? 'lightgrey' : null}}>Edit</b>
+      </div>
+    {modeNew ?
+      <div>
+        <h4>Edit</h4>
+        {state && renderForm(stateTypes, handleValue, handleSubmit)}
+      </div>
+      :
+      <>
+        <div>{state && !modeNew && <StatsInfo type={type} item={state} />}</div>
+        <div>
+          <h4>Feed</h4>
+          <p>Lorem impusm noticias de ayer, extra, exra!</p>
+        </div>
+      </>
+    }
+      {/* <h1>
+        {modeNew ? 
+        "Creando" : "Editando"} {type}{" "
+        }
       </h1>
       <div>
         <h2>Overview</h2>
@@ -131,11 +155,11 @@ export default function DataModal(props) {
         <div>
           <h2>Feed</h2>
         </div>
-      </>
+      </> */}
       
       
       {/* {!modeNew && type === 'sheets' && <SheetModal state={state}/> } */}
   
-    </div>
+    </>
   );
 }

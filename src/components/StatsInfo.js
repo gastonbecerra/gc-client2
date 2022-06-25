@@ -25,11 +25,11 @@ export default function StatsInfo({type, item}) {
     },[state])
 
   return (
-    <h2>
+    <h4>
         Stats & Info
         {state && stateTypes &&
             renderInfo(stateTypes)
         }
-    </h2>
+    </h4>
   )
 }
