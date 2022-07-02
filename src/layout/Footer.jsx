@@ -30,8 +30,8 @@ export default function Footer() {
             </Link>
         </div>
         <div>
-            <Link to={'/research'}>
-                Research
+            <Link to={'/sequence/vars'}>
+                Sequence
             </Link>
         </div>
     </div>

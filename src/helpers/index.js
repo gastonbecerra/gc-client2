@@ -106,3 +106,6 @@ export const renderRequiredInput = (input, handleValue, key, mode) =>{
 
 }
 
+export const renderContent = (schema) => {
+    
+}

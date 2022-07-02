@@ -8,7 +8,7 @@ export default function CreateButtonComponent( { type } ) {
 
     const handleNavigation = () => {
         location.pathname.includes('data') ? 
-            navigate(`${location.pathname}/${type}/create`) 
+            navigate(`/sequence/${type}`) 
             :
             navigate(`${location.pathname}/create`) 
     }

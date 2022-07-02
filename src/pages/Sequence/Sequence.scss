@@ -1,0 +1,74 @@
+    // MEDIA QUERY BREAKPOINTS
+  $breakpoints: (
+    sm : 540px,
+    md: 768px,
+    lg : 1024px,
+    xl : 1280px    
+  );
+  
+  // MEDIA QUERY DEFINITIONS
+  @mixin media-up($breakpoint){
+    @media screen and (min-width: map-get($breakpoints, $breakpoint)){
+      @content; 
+    }
+  }
+  
+  $xs:540px;
+  $md: 768px;
+  $lg: 1024px;
+  $xl: 1220px;
+
+.slider {
+  text-align: center;
+  border: solid 1px lightgray;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+  height: 40vh;
+  width: 70vw;
+  background-color: white;
+}
+
+.slide {
+    position: absolute;
+    opacity: 0;
+    transition-duration: 1s ease;
+    z-index: -1;
+  }
+  
+  .slide.active {
+    z-index: 0;
+    opacity: 1;
+    transition-duration: 1s;
+    transform: scale(1.08);
+  }
+
+  .list-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 5px;
+    .item{
+      display: flex;
+      border: solid 1px lightgray;
+      width: 130px;
+      max-width: 35%;
+      padding: 10px;
+      margin: 10px;
+      cursor: pointer;
+      transition-duration: 0.5s;
+      &:hover{
+        background-color: lightgray;
+      }
+      *{
+        margin: auto;
+      }
+    }  
+  }
+
+  
