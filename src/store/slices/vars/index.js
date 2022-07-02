@@ -47,28 +47,7 @@ export const varSlice = createSlice({
                         incomes:        [ 'currency (ARS)', 'currency (USD)' ],
                         moods:          [ 'likert (never-always x5)', 'likert (disagree-agree x5)', 'points (1-10)', 'faces (sad-happy x5)', 'yes/no', 'open text' ],
                         consumptions:   [ 'unit', 'weight (ltrs.)', 'calories', 'time (hms)' ]
-                    },
-                    keys: {          
-                        /*
-                        2do: esto deberia depender de el valor seleccionado en scales, no de la categoria
-                        */
-                        spendings:      [ 'too complex!', 'try text/sentiment analysis', 
-                                        'having more is better', 'having less is better', 
-                                        'ideal target of ...', 'between ranges', 
-                                        'most "YES" is better', 'mostly "NO" is better', 'mostly "ALWAYS" is preferred', 'mostly "NEVER" is preferred'], 
-                        incomes:      [ 'too complex!', 'try text/sentiment analysis', 
-                                        'having more is better', 'having less is better', 
-                                        'ideal target of ...', 'between ranges', 
-                                        'most "YES" is better', 'mostly "NO" is better', 'mostly "ALWAYS" is preferred', 'mostly "NEVER" is preferred'],
-                        moods:      [ 'too complex!', 'try text/sentiment analysis', 
-                                        'having more is better', 'having less is better', 
-                                        'ideal target of ...', 'between ranges', 
-                                        'most "YES" is better', 'mostly "NO" is better', 'mostly "ALWAYS" is preferred', 'mostly "NEVER" is preferred'],
-                        consumptions:      [ 'too complex!', 'try text/sentiment analysis', 
-                                        'having more is better', 'having less is better', 
-                                        'ideal target of ...', 'between ranges', 
-                                        'most "YES" is better', 'mostly "NO" is better', 'mostly "ALWAYS" is preferred', 'mostly "NEVER" is preferred']                                                                                                                        
-                    },
+                    },                    
                     concept:[
                         /*
                         - che, SEARCH => tenemos todo esto relacioado a lo que estás buscando

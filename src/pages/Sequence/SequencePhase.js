@@ -28,7 +28,7 @@ export default function SequencePhase({ phase, index, sequence, handleCategory, 
         : 
         
         phase.phase === 'concept' ? 
-          <SearchIndex state={state}/>
+          <SearchIndex state={state} />
         : 
         (content) && content.map((item, i) => (          
           <div className="item" key={i} onClick={()=> handleClick(phase.phase, item)}>
