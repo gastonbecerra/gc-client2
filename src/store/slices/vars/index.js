@@ -47,7 +47,13 @@ export const varSlice = createSlice({
                         incomes:        [ 'currency (ARS)', 'currency (USD)' ],
                         moods:          [ 'likert (never-always x5)', 'likert (disagree-agree x5)', 'points (1-10)', 'faces (sad-happy x5)', 'yes/no', 'open text' ],
                         consumptions:   [ 'unit', 'weight (ltrs.)', 'calories', 'time (hms)' ]
-                    },                    
+                    },    
+                    privacy: {
+                        spendings:      [ 'public', 'private' ],
+                        incomes:        [ 'public', 'private' ],
+                        moods:          [ 'public', 'private' ],
+                        consumptions:   [ 'public', 'private' ],                        
+                    },                
                     concept:[
                         /*
                         - che, SEARCH => tenemos todo esto relacioado a lo que estás buscando
@@ -84,7 +90,7 @@ export const postVars = (data, callbackState) => (dispatch, getState) =>{
     Axios({
         url: 'http://localhost:8080/vars',
         method: 'post',
-        data: {data}
+        data: { data }
     })
     .then((res)=>{
         dispatch(fetchVars())
@@ -117,33 +123,20 @@ export const putVars = (data, id, callbackState) => (dispatch, getState) =>{
     })
  }
 
- export const deleteVars =
-   (var_id, user_id, callbackState) => (dispatch, getState) => {
-     Axios({
-       url: `http://localhost:8080/vars/${var_id}/${user_id}`,
-       method: "delete",
-     })
-       .then((res) => {
-         dispatch(fetchVars());
-         return res;
-       })
-       .then((res) => {
-         callbackState(res);
-       })
-       .catch((res) => {
-         callbackState(res);
-       });
-   };
-
-
-/*
-
-currency : [
-    sub_categories: [
-        expenses: {timeframe: 'free', measurement: 'US Dollar'},{measurement: 'US Dollar'}}}, 
-        income, 
-        investments, 
-        trading
-    ]
-]
-*/
+export const deleteVars =
+(var_id, user_id, callbackState) => (dispatch, getState) => {
+    Axios({
+    url: `http://localhost:8080/vars/${var_id}/${user_id}`,
+    method: "delete",
+    })
+    .then((res) => {
+        dispatch(fetchVars());
+        return res;
+    })
+    .then((res) => {
+        callbackState(res);
+    })
+    .catch((res) => {
+        callbackState(res);
+    });
+};

@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import { useSelector } from 'react-redux'
-export default function ConceptIndex({state}) {
-  
+import { useSelector, useDispatch } from 'react-redux'
+import { postVars } from '../../../store/slices/vars';
+
+export default function ConceptIndex({state}) {  
+  const dispatch = useDispatch();
+  const { id, username } = useSelector(state => state.users);
   const [concept, setConcept] = useState('');
   const [object, setObject] = useState();
   const [privacy, setPrivacy] = useState('public');
@@ -19,10 +22,8 @@ export default function ConceptIndex({state}) {
     ['most "NEVER" is better', ['likert (never-always x5)']],    
   ]
 
-
-    
   // 'mostly "ALWAYS" is preferred', 'mostly "NEVER" is preferred'];
-
+  console.log(id);
   const hash = () => {
     try{
       return (
@@ -53,23 +54,33 @@ export default function ConceptIndex({state}) {
   }
   }
 
+  const callbackState = (response) => {
+    console.log(JSON.stringify(response));
+    if (response.status === 200) {      
+      alert('todo listorti');
+      setObject('')
+      setConcept('')
+      setKey('')
+      setDescription('')
+      setPrivacy('')
+      //DETECTAR A DÓNDE SEGUIMOS
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setObject({
       ...state, 
+      name: `${state.timeframe} ${state.categories} on ${concept} (${state.scale})`,
       concept: concept,
       privacy: privacy,
       description: description,
       key: key,
-      hashtag: `#${state.categories}_${state.timeframe}_${state.scale}_${concept}`
+      hashtag: `#${state.categories}_${state.timeframe}_${state.scale}_${concept}`,
+      user: id,
     });
     console.log(object);
-   /*
-    user
-    timestamp
-    privacy
-
-   */ 
+    dispatch(postVars(object, callbackState));
   }
 
   useEffect(()=>{
@@ -79,26 +90,21 @@ export default function ConceptIndex({state}) {
   return (
     <div>
     <form>
-      <input type="text" placeholder='concept' name="concept" id="concept" value={concept} onChange={(e)=> setConcept(e.target.value)}/>
-      <div>
-
-      <p>Privacy: </p>
-      <input type="radio" name="privacy" value="public" checked={privacy === "public" ? true : false} onClick={(e) => setPrivacy(true)}/>
-      <label>Public</label>
-      <input type="radio" name="privacy" value="private" checked={privacy !== "public" ? true : false} onClick={(e) => setPrivacy(false)}/>
-      <label>Private</label>      
-      </div>
-      <label htmlFor='description'>What are you tracking on this variable?</label> <br/>
-      <textarea value={description} placeholder="description" id="description" name="description" onChange={(e)=>setDescription(e.target.value)}/>
+      <input type="text" placeholder='What are you tracking?' name="concept" id="concept" value={concept} onChange={(e)=> setConcept(e.target.value)}/>
+      <br></br>      <br></br>      
+      <textarea value={description} placeholder="Explain" id="description" name="description" onChange={(e)=>setDescription(e.target.value)}/>
     </form>
-<div>
+  <div>
 
 </div>
   
     {concept.length > 0 && hash()}
 
     {keys.length > 0 && keyOptions()}
-    <button type="sumbit" onClick={(e)=> handleSubmit(e)}>Crear Variable</button>
+    <div>
+      <br></br>
+      <button type="sumbit" onClick={(e)=> handleSubmit(e)}>Crear Variable</button>
+    </div>
     </div>
   )
 }
@@ -113,5 +119,4 @@ export default function ConceptIndex({state}) {
 * buscar en la bd todas las variables que tengan el mismo esquema
 * sugerir las opciones más acordes 
  
-
 */

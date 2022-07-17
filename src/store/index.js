@@ -3,12 +3,17 @@ import sheets from './slices/sheets';
 import vars from "./slices/vars";
 import contexts from "./slices/contexts";
 import users from "./slices/user";
+import values from "./slices/values";
 
 export default configureStore({
     reducer: {
         sheets,
         vars,
         contexts,
-        users
-    }
+        users,
+        values
+    },
+    applyMiddleware: [
+
+    ]
 });

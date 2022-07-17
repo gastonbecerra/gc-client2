@@ -61,15 +61,11 @@ export default function SequenceIndex() {
             </div>
           ))}
       </div>
-      <pre>
-        {JSON.stringify(state, null, 2)}
-      </pre>
       <div className="center-div">
         <span onClick={prevSlide}> {"<"} </span>
         <span onClick={nextSlide}> {">"} </span>
       </div>
-      {current === length ? 
-      //add button create var
+      {current === length ?       
         <button onClick={() => {}}>Create</button>
           :
         null

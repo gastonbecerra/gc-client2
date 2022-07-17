@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';
 import { fetchContexts } from '../../../store/slices/contexts';
 import { fetchVars } from '../../../store/slices/vars';
 import { fetchSheets } from '../../../store/slices/sheets';
+import { useNavigate } from 'react-router-dom';
 
 export default function SelectType({input, handleValue}) {
+  
+  const navigate = useNavigate();
   const [data, setData] = useState(input);
   const [id, setId] = useState(data[0]);
   const [value, setValue] = useState(data[1].value);
@@ -46,6 +49,10 @@ export default function SelectType({input, handleValue}) {
     handleValue(event)
   },[value])
 
+  const handleNavgation = () => {    
+    navigate(`/sequence/${input[0]}`)
+  }
+
   return (
     <>
      {data && status === 'success' &&
@@ -61,10 +68,11 @@ export default function SelectType({input, handleValue}) {
       >
         { items && items.map((i,y)=>( 
           <>
-        <option hidden selected>Selecciona una opción</option>
+          <option hidden selected>Selecciona una opción</option>
             <option key={y} value={i.name}>
                 {i.name} 
-            </option>                       
+            </option>    
+            <option onClick={() => handleNavgation()}>Crear nueva {input[0]} </option>
           </>
         ))}
     </select>   
