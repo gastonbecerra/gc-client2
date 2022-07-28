@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchVars } from '../../store/slices/vars';
 import { postValues, setState } from '../../store/slices/values';
 import { valuesMiddlewware } from '../../store/slices/values';
-import  DataGrid  from './DataGrid';
+import DataGrid from './DataGrid.tsx';
 
 export default function SheetModal({state, stateTypes}) {    
     const {id: user_id} = useSelector(state => state.users);
@@ -33,7 +33,7 @@ export default function SheetModal({state, stateTypes}) {
         }catch(e){
             console.log(e);
         }   
-    },[vars, state])
+    },[vars, state, values])
 
     useEffect(()=>{
         if(stateVars){
@@ -60,13 +60,11 @@ export default function SheetModal({state, stateTypes}) {
     },[stateVars, selectedVar])
 
     useEffect(()=>{
-        console.log(localValues);
+        // console.log(localValues);
     },[localValues])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target[`${scale}`].value);
-        console.log(e.target.comment.value);
         var data = {
             value: e.target[`${scale}`].value,
             var: selectedVar,
@@ -111,7 +109,7 @@ export default function SheetModal({state, stateTypes}) {
                     null
             }
 
-            {localValues && <DataGrid values={localValues}/>}
+            {localValues && <DataGrid values={localValues} vars={stateVars}/>}
         </div>
     </div>
   )

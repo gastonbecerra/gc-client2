@@ -49,10 +49,18 @@ export const { setValues, setStatus, setState } = valueSlice.actions;
 
 export default valueSlice.reducer; //es lo que sirve para exportar el reducer al store GRAL
 
-export const valuesMiddlewware = (key, params) => (dispatch, getState) =>{
+export const valuesMiddlewware = (key, params, id, cs) => (dispatch, getState) =>{
     switch (key) {
         case 'fetch':
             dispatch(fetchValues(params));
+            break;
+
+        case 'put': 
+            dispatch(putValues(params, id, cs));
+            break;
+
+        case 'delete': 
+            dispatch(deleteValues(params));
             break;
 
         case 'filter':
@@ -62,21 +70,15 @@ export const valuesMiddlewware = (key, params) => (dispatch, getState) =>{
             // dispatch((`${key}`));
     }
 }
-export const filterValues = (type) => (dispatch, getState) =>{
-    if(getState().values.values){
-        var filters =  getState().values.values.filter((value) => value.var === type)
-        // alert(JSON.stringify(filters))
-        return filters;
-    }
-}
-export const postValues = (data, callbackState) => (dispatch, getState) =>{
+
+export const postValues = (data, id, callbackState) => (dispatch, getState) =>{
     Axios({
         url: 'http://localhost:8080/values',
         method: 'post',
         data: { data }
     })
-    .then((res)=>{
-        dispatch(fetchValues())
+    .then((res)=>{        
+        dispatch(fetchValues(getState().users.id))
         return res;
     })
     .then((res)=>{
@@ -87,3 +89,46 @@ export const postValues = (data, callbackState) => (dispatch, getState) =>{
     })
 }
 
+export const putValues = (data, id, callbackState) => (dispatch, getState) =>{
+    Axios({
+        url: `http://localhost:8080/values/${id}`,
+        method: 'put',
+        data: {data}
+    })
+    .then((res)=>{
+        dispatch(fetchValues(getState().users.id))
+        return res;
+    })
+    .then((res)=>{        
+        callbackState(res)
+    })
+    .catch((res)=>{
+        callbackState(res)
+    })
+ }
+
+ export const deleteValues = (value_id) => (dispatch, getState) => {
+    console.log(123, value_id);
+     Axios({
+        url: `http://localhost:8080/values/${value_id}`,
+        method: "delete",
+     })
+     .then((res) => {
+        dispatch(fetchValues(getState().users.id))
+         return res;
+     })
+     .then((res) => {
+       console.log(res);
+     })
+     .catch((res) => {        
+        console.log(res);
+     });
+ };
+
+ export const filterValues = (type) => (dispatch, getState) =>{
+    if(getState().values.values){
+        var filters =  getState().values.values.filter((value) => value.var === type)
+        // alert(JSON.stringify(filters))
+        return filters;
+    }
+}

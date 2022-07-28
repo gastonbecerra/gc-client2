@@ -112,7 +112,7 @@ export default function DataModal(props) {
   };
 
   useEffect(() => {
-    console.log(state);
+    // console.log(state);
   },[state])
 
   return (
