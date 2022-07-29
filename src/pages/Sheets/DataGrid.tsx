@@ -4,7 +4,6 @@ import { summarizeMomentGranularity } from "@tidyjs/tidy-moment"; //npm i @tidyj
 import { Chart } from "react-google-charts";
 import moment from "moment";
 import Tabler from "../../components/shareds/Tabler.js";
-import { log } from "console";
 
 export const options = {
   allowHtml: true,
@@ -40,15 +39,15 @@ export default function DataGrid({ values, vars }) {
   const [filters, setFilters] = useState({
     timeframe: '',
     summarize: '',
-    chart: ''
+    chart: 'Line'
   });
+  const [chart, setChart] = useState("Line");
   const [view, setView] = useState("json");
   const [table, setTable] = useState(false);
   const [datachart, setDatachart] = useState(false);
   const [summary, setSummary] = useState(false);
   const [reacttable, setReacttable] = useState(false);
   var results;
-  var clone;
 
   useEffect(()=>{
     lineChartBuilder(values, vars);
@@ -151,6 +150,7 @@ export default function DataGrid({ values, vars }) {
 
   const handleChange = (evt) => {
     setFilters({ ...filters, [evt.target.id]: evt.target.value });        
+    evt.target.id === 'chart' && setChart(evt.target.value);
   }
 
   useEffect(()=>{
@@ -174,19 +174,11 @@ export default function DataGrid({ values, vars }) {
         return moment(date, 'YYYY-MM-DD').format('YYYY');
         
     }      
-      // var m = moment(date, 'YYYY-MM-DD');
-      // var date =  m.format('W');
-      // return date;
   }
 
-  function handleDisplay(values){
-    
+  function handleDisplay(values){    
     let clone = structuredClone(values);    
     clone = tidy(clone, mutate({ numWeek: (d) => parseTime(d.timestamp, filters.timeframe) }));
-    //var clone2 = tidy(clone, groupBy(["numWeek","var"], [summarize({ total: sum("value") })]));
-
-
-    // console.log(clone2)
     lineChartBuilder(clone, vars);
   }
 
@@ -227,11 +219,13 @@ export default function DataGrid({ values, vars }) {
 
         <select id="chart" onChange={(e) => handleChange(e)} >
           <option value="Line">Lines</option>
-          <option value="bar">Bars</option>
+          <option value="BarChart">BarChart</option>
+          <option value="Histogram">Histogram</option>
+          <option value="AreaChart">AreaChart</option>
         </select>        
 
         <Chart
-          chartType="Line"
+          chartType={chart}
           width="100%"
           height="400px"
           data={datachart}
@@ -242,7 +236,7 @@ export default function DataGrid({ values, vars }) {
       )}
       {view === "chart" && datachart && 
         <Chart
-          chartType="Line"
+          chartType={chart}
           width="100%"
           height="400px"
           data={datachart}
