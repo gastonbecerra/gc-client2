@@ -34,6 +34,12 @@ export default function Footer() {
                 Sequence
             </Link>
         </div>
+        
+        <div>
+            <Link to={'/data/context'}>
+                Context
+            </Link>
+        </div>
     </div>
       </div>
   )

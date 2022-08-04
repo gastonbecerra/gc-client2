@@ -4,6 +4,7 @@ import { fetchVars } from '../../store/slices/vars';
 import { postValues, setState } from '../../store/slices/values';
 import { valuesMiddlewware } from '../../store/slices/values';
 import DataGrid from './DataGrid.tsx';
+import $ from 'jquery';
 
 export default function SheetModal({state, stateTypes}) {    
     const {id: user_id} = useSelector(state => state.users);
@@ -14,6 +15,7 @@ export default function SheetModal({state, stateTypes}) {
     const [scale, setScale] = useState();
     const { values, values_status } = useSelector((state) => state.values);
     const [ localValues, setLocalValues ] = useState();
+    const [ visible, setVisible ] = useState(false);
 
     useEffect(()=>{        
         !vars && dispatch(fetchVars());
@@ -73,7 +75,7 @@ export default function SheetModal({state, stateTypes}) {
         }
         dispatch(postValues(data, (res)=>{
             if(res.status === 200){
-                e.target.reset();
+             $('#adder').trigger('reset');   
             }
         }))        
     }
@@ -94,15 +96,18 @@ export default function SheetModal({state, stateTypes}) {
                 selectedVar ? 
                 <>
                     {scale}
-                    <form onSubmit={(e) => handleSubmit(e)}>
-                        <input type="number" name={scale} id={scale} placeholder="insert value"/>
-                        <br></br>
-                        <textarea name="comment" id="comment" placeholder='any comment?'/>
-                        <br></br>
-                        <input 
-                            type="submit" 
-                            value="Submit"                             
-                        />
+                    <form id="adder" onSubmit={(e) => handleSubmit(e)}>
+                        <h4 onClick={()=> setVisible(!visible)}>Add a new value?</h4>
+                        <div style={{display: visible ? 'block' : 'none'}}>
+                            <input type="number" name={scale} id={scale} placeholder="insert value"/>
+                            <br></br>
+                            <textarea name="comment" id="comment" placeholder='any comment?'/>
+                            <br></br>
+                            <input 
+                                type="submit" 
+                                value="Submit"                             
+                            />
+                        </div>
                     </form>
                 </>                    
                     : 

@@ -71,7 +71,7 @@ export const valuesMiddlewware = (key, params, id, cs) => (dispatch, getState) =
     }
 }
 
-export const postValues = (data, id, callbackState) => (dispatch, getState) =>{
+export const postValues = (data, callbackState) => (dispatch, getState) =>{
     Axios({
         url: 'http://localhost:8080/values',
         method: 'post',

@@ -14,13 +14,11 @@ import TestHome from './pages/Test/TestHome';
 import SheetModal from './pages/Sheets/SheetModal';
 import ResearchIndex from './pages/Research/ResearchIndex';
 import SequenceIndex from './pages/Sequence/SequenceIndex';
+import ContextCreate from './pages/Context/ContextCreate';
 
-function App() {
-  
+function App() {  
   return (
-
     <>
-    
     <BrowserRouter>
     <Provider store={store}>
     <Header/>
@@ -31,6 +29,7 @@ function App() {
       <Route path="/data/:type/:id" element={<DataModal />}/>
       <Route exact path="/signin" element={<Signin />}/>
       <Route exact path="/test" element={<TestHome />}/>
+      <Route exact path="/contexts/create" element={<ContextCreate />}/>
       <Route exact path="/sequence/:type" element={<SequenceIndex />}/>
     </Routes>
 
