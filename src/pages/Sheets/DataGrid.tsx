@@ -101,7 +101,6 @@ export default function DataGrid({ values, vars }) {
         let row = [item, vars_count[item], stats_vars[index_stats].sum, stats_vars[index_stats].median, stats_vars[index_stats].min, stats_vars[index_stats].max, stats_vars[index_stats].variance];
         rows.push(row);
       });
-
       setStats(rows);
     }
   }
@@ -266,7 +265,7 @@ export default function DataGrid({ values, vars }) {
             onClick={(e) => { console.log(e) }}
             chartType="Table"
             width="100%"
-            data={stats}
+            data={datachart}
             options={options}
             formatters={formatters}
 

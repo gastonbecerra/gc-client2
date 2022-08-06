@@ -61,6 +61,7 @@ export const postContexts = (data, callbackState) => (dispatch, getState) =>{
         data: {data}
     })
     .then((res)=>{
+        dispatch(fetchContexts());
         callbackState(res);
     })
     .catch((res)=>{
