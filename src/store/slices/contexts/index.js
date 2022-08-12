@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+    import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Axios from 'axios';
 
 export const fetchContexts = createAsyncThunk(
@@ -53,6 +53,18 @@ export const contextSlice = createSlice({
 export default contextSlice.reducer;
 
 export const { setContexts } = contextSlice.actions;
+
+export const returnContext = (id) => (dispatch, getState) => {
+    var statu = getState().contexts.contexts_status;
+    if (statu !== 'success') {
+        dispatch(fetchContexts());
+    }
+    // alert(id)
+    // return getState().contexts.contexts.find(context => context.id === id);
+    var cts = getState().contexts.contexts;
+    var ct = cts.find(context => context._id === id);
+    return ct;
+}
 
 export const postContexts = (data, callbackState) => (dispatch, getState) =>{
     Axios({

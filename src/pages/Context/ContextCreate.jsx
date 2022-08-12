@@ -15,6 +15,40 @@ export default function ContextCreate() {
         rules: [],
     })
 
+    useEffect(()=>{
+        setOperation("")       
+    },[selectedVariable])
+
+    const handleInputs = (operation) => {
+           return(
+                <div>
+                    {operation === ('eq') && 
+                        <div>                            
+                            <input onChange={(e)=> handleRulesValues(e)} type="number" id="rulesValue" name="rulesValue"/>        
+                        </div>
+                    }
+                    {operation === ('lt') && 
+                        <div>                            
+                            <input onChange={(e)=> handleRulesValues(e)} type="number" id="rulesValue" name="rulesValue"/>        
+                        </div>
+                    }
+                    {operation === ('gt') && 
+                        <div>
+                            <input onChange={(e)=> handleRulesValues(e)} type="number" id="rulesValue" name="rulesValue"/>        
+                        </div>
+                    }
+                    {operation === 'bt' && 
+                        <div>
+                            <input onChange={(e)=> handleRulesValues(e)} type="number" id="rulesValuebt1" name="rulesValue"/>
+                            <input onChange={(e)=> handleRulesValues(e)} type="number" id="rulesValuebt2" name="rulesValue" />
+                        </div>}
+                        
+                <input type="submit" value="Add rule" onClick={(e)=>handleRules(e)}/>
+                </div>
+
+           )
+    }
+
     const dispatch = useDispatch();
     
     const { vars } = useSelector(state => state.vars);
@@ -32,47 +66,36 @@ export default function ContextCreate() {
             ...state,
             [e.target.id]: e.target.value
         })
-        console.log(state);
     }
 
     const handleRules = (e) => {
+        e.preventDefault();
         var rule = {
             variable: selectedVariable,
             operation: rulesOperation,
             value: rulesValue
         };
         console.log(rule);
-        //rule no esté dentro de rules
-        var updated = false;        
-        var aux_r = state.rules;
-        aux_r.forEach((r) => {
-            if(r.variable === selectedVariable){
-                updated = true;
-                rule.operation = rulesOperation;
-                rule.value = rulesValue;
-                return;                 
-            }
-        });        
-        if (!updated){
+        if(state.rules.length === 0){
             setState({
                 ...state,
-                rules: [...state.rules, rule] 
+                rules: [rule]
             })
         }else{
-            setState({
-                ...state,
-                rules: aux_r 
-            })
+            const index = state.rules.findIndex(rule => rule.variable === selectedVariable);
+            if(index === -1){                
+                setState({
+                    ...state,
+                    rules: [...state.rules, rule]
+                })
+            }else{
+                setState({
+                    ...state,
+                    rules: [...state.rules.slice(0, index), rule, ...state.rules.slice(index + 1)]
+                })
+            }
         }
         console.log(state.rules);
-    }
-
-    
-    const displaySelectedVariable = () =>{ // tucu: por cosas como estas camelcase es una verga
-    }
-    
-    const handleRulesOperations = (e) => {
-        setOperation(e.target.value);
     }
 
     // 2do: directo desde la operacion al setter
@@ -81,10 +104,17 @@ export default function ContextCreate() {
         setSelected(e.target.value)
     }
     const handleRulesValues = (e) => {
-        setValue(e.target.value);
+        if(rulesOperation === 'bt'){
+            var value1 = document.getElementById('rulesValuebt1').value;
+            var value2 = document.getElementById('rulesValuebt2').value;
+            //parse int to string
+            setValue(value1 + '-' + value2);
+        }else{
+            setValue(e.target.value);
+        }
         console.log(rulesValue);
     }
-
+    
     const submitRules = (e) => {
         e.preventDefault();        
         if (state.name === '' || state.description === '' || state.rules.length === 0) {
@@ -100,7 +130,7 @@ export default function ContextCreate() {
                         rules: [],
                     })
                 }
-                }));                
+            }));                
         }
     }
 
@@ -119,19 +149,18 @@ export default function ContextCreate() {
             <div>
                 <label htmlFor='selectedVariable'>Select variable</label>
                 <select id="selectedVariable" name="selectedVariable" onChange={(e) => handleSelectedVariable(e)}>
-                    <option value="" disabled>Select variable</option>
+                    <option value="">Select variable</option>
                     {
                         vars && vars.map( (varItem, index) => {
-                            return (
-                                <option key={index} value={varItem.name}>{varItem.name}</option>
-                                )
-                            })
-                        }
+                        return (
+                            <option key={index} value={varItem.name}>{varItem.name}</option>
+                            )
+                        })
+                    }
                 </select>
             </div>
 
-            {
-                selectedVariable && vars.map( (varItem, index) => {
+            { selectedVariable && vars.map( (varItem, index) => {
                     if(varItem.name === selectedVariable) {
                         return (
                             <div key={index} style={{ 
@@ -148,11 +177,11 @@ export default function ContextCreate() {
                                 {varItem.scale}
 
                                 <h4>ingrese una operacion</h4>
-                                    {
+                                    {   
                                         {
                                             'currency (ARS)': 
                                                 <select id="rulesOperation" name="rulesOperation"
-                                                    onChange={(e) => handleRulesOperations(e)}>>
+                                                    onChange={(e) => setOperation(e.target.value)}>
                                                     <option value="">Select operation</option>
                                                     <option value="eq">equal</option>
                                                     <option value="bt">between</option>
@@ -164,33 +193,18 @@ export default function ContextCreate() {
                                     }
                                 <br/>
 
-                                {
-                                    rulesOperation &&
-                                        <div>
-                                            <h4>ingrese un valor</h4>
-                                            {
-                                                {
-                                                    ['eq' || 'lt' || 'gt' ]: <input type="text" id="rulesValue" name="rulesValue" onChange={(e) => setValue(e.target.value)}/>,
-                                                    'bt': <><input type="text" id="rulesValue" name="rulesValue"/>
-                                                    <input type="text" id="rulesValue" name="rulesValue" /></>,
-                                                }[rulesOperation]
-                                            }
-                                            <input type='button' value="agregar" onClick={(e) => handleRules(e)}/>
-                                        </div>
-                                }
+                                {rulesOperation && handleInputs(rulesOperation)}
 
                             </div>
                         )
                     }
-                })
-                
+                })                
             }
 
             <h3>json reglas</h3>
-
             <p>{JSON.stringify(state.rules)}</p>
-            
             <input type="button" value="Create context" onClick={(e) => submitRules(e)}/>
+
         </form>
 
     </>
