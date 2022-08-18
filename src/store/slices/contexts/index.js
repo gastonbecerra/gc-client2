@@ -54,6 +54,18 @@ export default contextSlice.reducer;
 
 export const { setContexts } = contextSlice.actions;
 
+export const returnContext = (id) => (dispatch, getState) => {
+    var statu = getState().contexts.contexts_status;
+    if (statu !== 'success') {
+        dispatch(fetchContexts());
+    }
+    // alert(id)
+    // return getState().contexts.contexts.find(context => context.id === id);
+    var cts = getState().contexts.contexts;
+    var ct = cts.find(context => context._id === id);
+    return ct;
+}
+
 export const postContexts = (data, callbackState) => (dispatch, getState) =>{
     Axios({
         url: 'http://localhost:8080/contexts',
@@ -61,6 +73,7 @@ export const postContexts = (data, callbackState) => (dispatch, getState) =>{
         data: {data}
     })
     .then((res)=>{
+        dispatch(fetchContexts());
         callbackState(res);
     })
     .catch((res)=>{

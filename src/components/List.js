@@ -7,8 +7,13 @@ export default function ListComponent({ list, type, handleDelete }) {
   const { id } = useSelector((state) => state.users);
   const location = useLocation();
   
-  const HandleNavigation = ({ item }) => {    
-    let path = `${location.pathname}/${type}/${item._id}`;
+  const HandleNavigation = ({ item }) => {   
+    let path;
+    if (type === "contexts") {
+      path = `/contexts/display/${item._id}`;
+    }else{
+      path = `${location.pathname}/${type}/${item._id}`;
+    } 
     return (
       <Link to={path}>
         <li>{item.name}</li>
