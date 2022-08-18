@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import { SelectType } from '../../components/inputs';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
-
+import { fetchVars } from '../../store/slices/vars';
 export default function ContextCreate() {
     const [selected, setSelected] = useState(false); 
     const [state, setState] = useState({
@@ -11,6 +11,13 @@ export default function ContextCreate() {
         vars: ''
     })
     const { vars } = useSelector(state => state.vars);
+    //const { vars } = useSelector(state => state.vars);
+
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        !vars && dispatch(fetchVars());
+        console.log(vars);
+    },[])
 
     const handleChange = (e) => {
         setState({
@@ -30,17 +37,22 @@ export default function ContextCreate() {
 
     const handleSelected = (e) => {
         setSelected(e.target.value)
+        //ver como transformar el array en string
         console.log(selected);
     }
 
     const displayVarControl = () =>{
-        if(selected){
-            var selected_var = vars.filter(v => v.name === selected)
+        if(selected)
+        //recorrer selectd (que es un array)
+
+        //capturar por equivalencia de nombre (usando filter) el objeto var correspondiente
+
+        //meterlo en otro array para mapearlo en el return
         
-        }
+        
         return (
             <pre>
-                {JSON.stringify(selected_var, null, 2)}
+                
             </pre>
         )
     }

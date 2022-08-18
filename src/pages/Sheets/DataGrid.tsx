@@ -56,6 +56,7 @@ export default function DataGrid({ values, vars }) {
     builderVarsSchema(vars);
     handleStats(values);
     buildWordCloud(values);
+    analytics(values);
   }, [values])
 
   useEffect(() => {
@@ -225,6 +226,72 @@ export default function DataGrid({ values, vars }) {
 
   }
 
+  
+  function analytics(values) {
+    var schema = builderVarsSchema(vars);
+    console.log(Object.keys(schema))
+    
+  }
+
+  
+  let analysis_directory = [
+    'savings' , 
+    'spendings_distribution'
+  ];
+
+  function analytics2(analysis) {    
+    console.log(values);
+    
+    if(values)
+      if( analysis == 'savings' ) {
+        // ahorro = ingresos - egresos
+        var savings = 0;
+        var incomes = 0;
+        var spendings = 0;
+        // agarrar las variables
+        try{
+          incomes = tidy(values, 
+            filter((d) => d.var.includes('income')),
+              summarize({total: sum('value')})
+            ) 
+            console.log(incomes[0].total);
+
+            spendings = tidy(values, 
+            filter((d) => d.var.includes('spending')),
+              summarize({total: sum('value')})
+            )
+            
+          savings = incomes[0].total - spendings[0].total;
+        }catch(e){
+          console.log(e)
+        }  
+        return(
+          <>
+            { savings && 
+            <>
+              <div style={{border:'solid black 1px'}}>
+                <p>Do you want to track this: YES | NO</p>
+                
+                VARIABLE NAME <b>MONTHLY Savings:</b> <br/>
+                VARIABLE DESCRIPTION description savings <br/>
+                VARIABLE SCALA Y TIMEFRAME <br/>
+                <span>
+                  {' ' + savings}</span>
+
+
+                <h4>How do you feel about this value?</h4>
+                <input type="range" min="0" max="5" defaultValue={0}/>
+
+              </div>
+            </>
+            }
+          </>
+        )     
+  }
+}
+
+
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -262,17 +329,20 @@ export default function DataGrid({ values, vars }) {
       {view === "tabla" && stats && (
         <>
           <div style={{ margin: "20px" }}> </div>
-          <Chart
+          <Chart //TO DO: add week + var per row
             onClick={(e) => { console.log(e) }}
             chartType="Table"
             width="100%"
-            data={stats}
+            data={datachart}
             options={options}
             formatters={formatters}
-
           />
 
           <div style={{ margin: "20px" }}> </div>
+
+
+
+          {/* <div style={{ margin: "20px" }}> </div>
 
           <Chart
             chartType={chart}
@@ -282,7 +352,14 @@ export default function DataGrid({ values, vars }) {
             chartPackages={["corechart", "controls", "charteditor"]}
           />
 
-{            buildWordCloud(values)}
+          {buildWordCloud(values)} */}
+
+          {analysis_directory.map(analysis => (
+            <p>
+              {analytics2(analysis)}
+            </p>
+          ))}
+
 
         </>
       )}
@@ -295,10 +372,22 @@ export default function DataGrid({ values, vars }) {
           options={chart_options}
         />
       }
-
-
-
       {view === "react-table" && <Tabler values={values} vars={vars} />}
+
+
+
     </>
   );
 }
+
+
+/*
+DATA ANALYTICS LAYER
+PARAMS: SHEET, VARS, VALUES
+RETURNS: ANALYTICS BASED ON VARS AND VALUES
+
+SAVINGS:
+  - ahorro = ingresos - egresos
+
+
+*/
