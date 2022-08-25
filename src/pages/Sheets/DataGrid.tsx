@@ -169,8 +169,7 @@ export default function DataGrid({ values, vars }) {
     for (var i = 0; i < vars.length; i++) {
       holder[vars[i].name] = ''
     }
-    return holder;
-    // console.log(holder);    
+    return holder;   
   }
 
   const handleChange = (evt) => {
@@ -239,11 +238,11 @@ export default function DataGrid({ values, vars }) {
     'spendings_distribution'
   ];
 
-  function analytics2(analysis) {    
+  function analytics2(analysis) {    // variable agregada incomes - expenses
     console.log(values);
     
     if(values)
-      if( analysis == 'savings' ) {
+      if( analysis === 'savings' ) {
         // ahorro = ingresos - egresos
         var savings = 0;
         var incomes = 0;
@@ -275,8 +274,7 @@ export default function DataGrid({ values, vars }) {
                 VARIABLE NAME <b>MONTHLY Savings:</b> <br/>
                 VARIABLE DESCRIPTION description savings <br/>
                 VARIABLE SCALA Y TIMEFRAME <br/>
-                <span>
-                  {' ' + savings}</span>
+                <span>Savings: {' ' + savings}</span>
 
 
                 <h4>How do you feel about this value?</h4>
