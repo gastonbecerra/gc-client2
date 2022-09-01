@@ -158,8 +158,9 @@ export default function SheetModal({state, stateTypes}) {
                     null
             }
 
-            {localValues && <DataGrid values={localValues} vars={stateVars}/>}
-            {/* {localValues && <BasicStats values={localValues} vars={stateVars}/>} */}
+            {localValues && <DataGrid values={localValues} vars={stateVars}/>} 
+
+            {localValues && <BasicStats values={localValues} vars={stateVars}/>}
             {/* 
                 -> definir análisis  básico x variable
                 -> definir análisis básico  x variable agregadas
