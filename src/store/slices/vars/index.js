@@ -34,30 +34,31 @@ export const varSlice = createSlice({
             sequence: {                
                 phases: {
                     categories: [
-                        'spendings',  'incomes', 'moods', ' consumptions', 'training'
+                        'spendings',  'incomes', 'moods', ' consumptions', 'training', 'inventory', 'tasks'
                     ],
-                    timeframe: {
-                        spendings:      [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
-                        incomes:        [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
-                        moods:          [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
-                        consumptions:   [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
-                    },
+                    // timeframe: {
+                    //     spendings:      [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
+                    //     incomes:        [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
+                    //     moods:          [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
+                    //     consumptions:   [ 'free', 'daily', 'weekly', 'monthly', 'yearly', 'custom season' ],
+                    // },
                     scale: {                        
                         spendings:      [ 'currency (ARS)', 'currency (USD)' ],
                         incomes:        [ 'currency (ARS)', 'currency (USD)' ],
                         moods:          [ 'likert (never-always x5)', 'likert (disagree-agree x5)', 'points (1-10)', 'faces (sad-happy x5)', 'yes/no', 'open text' ],
-                        consumptions:   [ 'unit', 'weight (ltrs.)', 'calories', 'time (hms)' ]
+                        consumptions:   [ 'unit', 'weight (ltrs.)', 'calories', 'time (hms)' ],
+                        training:       [ 'steps', 'weight (ltrs.)', 'calories', 'time (hms)' ],
+                        inventory:      [ 'units' ],    
+                        tasks:          [ 'pending/WiP/done' ]
                     },    
-                    privacy: {
-                        spendings:      [ 'public', 'private' ],
-                        incomes:        [ 'public', 'private' ],
-                        moods:          [ 'public', 'private' ],
-                        consumptions:   [ 'public', 'private' ],                        
-                    },                
+                    // privacy: {
+                    //     spendings:      [ 'public', 'private' ],
+                    //     incomes:        [ 'public', 'private' ],
+                    //     moods:          [ 'public', 'private' ],
+                    //     consumptions:   [ 'public', 'private' ],                        
+                    // },                
                     concept:[
-                        /*
-                        - che, SEARCH => tenemos todo esto relacioado a lo que estás buscando
-                        */
+                        
                     ],
                 },
             }
@@ -88,10 +89,10 @@ export default varSlice.reducer;
 
 export const postVars = (data, callbackState) => (dispatch, getState) =>{
     Axios({
-        url: 'http://localhost:8080/vars',
-        method: 'post',
-        data: { data }
-    })
+            url: 'http://localhost:8080/vars',
+            method: 'post',
+            data: data  
+        })    
     .then((res)=>{
         dispatch(fetchVars())
         return res;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchVars, postVars, putVars } from "../../store/slices/vars";
-import {fetchContexts,postContexts,putContexts,} from "../../store/slices/contexts";
+import {fetchContexts,postContexts,putContexts} from "../../store/slices/contexts";
 import { renderForm } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import StatsInfo from "../../components/StatsInfo";
@@ -96,12 +96,13 @@ export default function DataModal(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (modeNew) {
-      {objectFunctions[`post${type}`](state, callbackState)}
-    }
-    if (!modeNew) {
-      {objectFunctions[`put${type}`](state, state._id, callbackState)}
-    }
+    // if (modeNew) {
+    //   {objectFunctions[`post${type}`](state, callbackState)}
+    // }
+    // if (!modeNew) {
+    //   {objectFunctions[`put${type}`](state, state._id, callbackState)}
+    // }
+    console.log(state);
   };
 
   const callbackState = (response) => {

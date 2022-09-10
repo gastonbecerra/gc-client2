@@ -329,14 +329,3 @@ export default function DataGrid({ values, vars }) {
   );
 }
 
-
-/*
-DATA ANALYTICS LAYER
-PARAMS: SHEET, VARS, VALUES
-RETURNS: ANALYTICS BASED ON VARS AND VALUES
-
-SAVINGS:
-  - ahorro = ingresos - egresos
-
-
-*/

@@ -21,7 +21,7 @@ export const sheetSlice = createSlice({
                 name: {type: 'text', value: null, required: true}, 
                 description: {type: 'textarea', value: '', required: false},
                 vars: {type: 'selectType', value: undefined, required: true},
-                contexts: {type: 'selectType', value: ''},
+                // contexts: {type: 'selectType', value: ''},
                 share: {type: 'boolean', value: true},
                 chart: {type: 'chart', value: ''},
                 tags: {type: 'tags', value: []},

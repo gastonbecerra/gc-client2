@@ -10,7 +10,7 @@ export default function SelectType({input, handleValue}) {
   const navigate = useNavigate();
   const [data, setData] = useState(input);
   const [id, setId] = useState(data[0]);
-  const [value, setValue] = useState(data[1].value);
+  const [value, setValue] = useState(data[1].value === undefined ? '' : data[1].value);
   const [required, setRequired] = useState(data[1].required);
   const items = useSelector(state => state[`${input[0]}`][`${input[0]}`])
   const status = useSelector(state => state[input[0]][`${input[0]}_status`])
@@ -33,7 +33,7 @@ export default function SelectType({input, handleValue}) {
 
   const handleChange = (val) => {
     console.log(val);
-    var values = [...value];
+    var values = [value];
     const index = values.findIndex(v => v === val);
     index === -1 ? values.push(val) : values.splice(index, 1) ;
     setValue(values);    
@@ -72,9 +72,9 @@ export default function SelectType({input, handleValue}) {
             <option key={y} value={i.name}>
                 {i.name} 
             </option>    
-            <option onClick={() => handleNavgation()}>Crear nueva {input[0]} </option>
           </>
         ))}
+        <option onClick={() => handleNavgation()}>Crear nueva {input[0]} </option>
     </select>   
     <br></br>
     {value && value.map((v,i)=>(

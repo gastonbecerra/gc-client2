@@ -13,7 +13,11 @@ export default function CreateButtonComponent( { type } ) {
     const handleNavigation = () => {
         if(type === 'contexts'){
             navigate(`/contexts/create`) 
-        } else{
+        } 
+        if(type === 'sheets'){
+            navigate(`/data/sheets/create`) 
+        }
+        else{
             location.pathname.includes('data') ? 
                 navigate(`/sequence/${type}`) 
                 :
