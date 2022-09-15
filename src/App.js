@@ -16,6 +16,7 @@ import ResearchIndex from './pages/Research/ResearchIndex';
 import SequenceIndex from './pages/Sequence/SequenceIndex';
 import ContextCreate from './pages/Context/ContextCreate';
 import DisplayContext from './pages/Context/DisplayContext';
+import SheetContainer from './components/sheet_container/SheetContainer';
 
 function App() {  
   return (
@@ -33,6 +34,7 @@ function App() {
       <Route exact path="/contexts/create" element={<ContextCreate />}/>
       <Route exact path="/contexts/display/:id" element={<DisplayContext />}/>
       <Route exact path="/sequence/:type" element={<SequenceIndex />}/>
+      <Route exact path="/sheetv2/:id" element={<SheetContainer />}/>
     </Routes>
 
     <Footer/>

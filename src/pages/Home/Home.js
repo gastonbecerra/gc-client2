@@ -37,7 +37,11 @@ export default function HomeIndex() {
         </div>
 
         <div>Research</div>
-        <div>Feed</div>
+        <div>            
+            <Link to={'sheetv2/1'}>
+                Sheet Container
+            </Link>            
+        </div>
         </div>
 
     )
