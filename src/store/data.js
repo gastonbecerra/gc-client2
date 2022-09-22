@@ -63,7 +63,7 @@ export const vars = [
         id: 1,
         name: "spending_cafe",
         concept: "cafe",
-        type: "category",
+        type: "spending",
         scale: "ARS",
     },
     {
@@ -72,17 +72,35 @@ export const vars = [
         type: "task",
         concept: "homework",
         scale: 'pending|working|done',
+    },
+    {
+        id: 3,
+        name: "spending_beer",
+        concept: "beer",
+        type: "spending",
+        scale: "ARS",
     }
 ]
 
 
-export const sheet = [{
-    id: 1,
-    name: 'tasks y cafes',
-    description: 'xxx',
-    vars: [ 'spending_cafe' , 'spending_beer', 'task_homework' ],
-    share: true,
-    tags: '',
-    created: '2020-10-10T00:00:00.000Z',
-    metadata: ['cuatrimestre'],
-} ]  
+export const sheet = [
+    {
+        id: 1,
+        name: 'tasks y cafes',
+        description: 'xxx',
+        vars: [ 'spending_cafe' , 'spending_beer', 'task_homework' ],
+        share: true,
+        tags: '',
+        created: '2020-10-10T00:00:00.000Z',
+        metadata: ['cuatrimestre'],
+    } 
+]  
+
+export const sheet_user_interaction = [
+    {
+        id: 1,
+        sheet_id: 1,
+        user_id: 1,
+        analysis: [],
+    }
+]

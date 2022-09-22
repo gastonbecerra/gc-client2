@@ -1,5 +1,5 @@
 import React from 'react';
-import { tidy, summarize, sum, groupBy, filter, mutate, mean, rename, count, format, median, map, distinct, variance, summarizeIf, min, max } from "@tidyjs/tidy";
+import { tidy, summarize, sum, groupBy, filter, mutate, mean, rename, count, format, median, map, distinct, variance, summarizeIf, min, max, sliceMax, select, tally } from "@tidyjs/tidy";
 import axios from 'axios';
 
 function savings(vars, values) {    // variable agregada incomes - expenses
@@ -98,20 +98,58 @@ function incomeDistribution (vars, values) {
   }
 }
 
-function spending_verduras_en_contexto(vars, values) {    // variable agregada incomes - expenses    
-  
-  
-  // mostrar el gasto del usuario entre min y max de los que comen verdura (un sample)
-  
+function spending_distribution(vars, values, wrapper){
+     var spending_vars = vars.filter((v) => v.type === 'spending');
+      if (spending_vars.length > 1) {  // condicion
+        const spending_distribution_data = tidy(
+          values,          
+          filter((d) => spending_vars.map((i) => i.name).includes( d.var) ),
+          groupBy(['var'], [
+            summarize({ total: sum('value') })
+          ])
+        )
+        
+        return(
+          <>
+          <h6>Spending distribution</h6>
+          {wrapper('spending_distribution')}
+          <pre>{JSON.stringify(spending_distribution_data)}</pre>
+          </>
+        )
+  }
+}
 
-  // estamos hardcodeando el contexto == los que spending de verdura > 1
-  // 6302f74a8080c5c186c86779
+function task_stages_distribution(vars, values, wrapper) {
+  var tasks = vars.filter((v) => v.type === 'task');
+
+  let last_tasks = tidy(
+    values,
+    filter((d) => tasks.map((i) => i.name).includes(d.var)),
+    groupBy("name",
+      sliceMax(1, "date"),
+    ),
+    select(["name", "value", "var", "metadata"]),
+    groupBy("value", 
+      tally()
+    ),
+  )  
+  const name = "last_tasks"
+  const data = last_tasks;
+
+  return(
+    <>
+          <h6>task estados</h6>
+          {wrapper('task_stages_distribution')}
+          <pre>{JSON.stringify(data)}</pre>
+
+    </>
+  )
+}
+
+function spending_verduras_en_contexto(vars, values, wrapper) {    // variable agregada incomes - expenses    
+
   var contexto = '6302f74a8080c5c186c86779';
   var variable = '62c61de6e8ac1f4eaad2aff8';
-
-
-
-   
   if (vars) {    
     var veggie_spendings = vars.filter((v) => v.name === 'daily spendings on veggies (currency (ARS))');    
     
@@ -181,14 +219,12 @@ function spending_verduras_en_contexto(vars, values) {    // variable agregada i
       )
 
     
-    
         }
   }
 
-  
 }
 
-export default function BasicStats({ values, vars }) {
+export default function BasicStats({ values, vars, wrapper }) {
 
   const [apidata, setApidata] = React.useState(false);
   const [analysis, setAnalysis] = React.useState({})
@@ -197,13 +233,16 @@ export default function BasicStats({ values, vars }) {
     // handleAnalysis()
   }, [vars])
 
+  
 
   return (
     <>
       <div>BasicStats</div>
-
-      <>{incomeDistribution(vars, values)}</>
-      <>{savings(vars, values)}</>
+      <>{spending_distribution(vars, values, wrapper)}</>
+      <>{task_stages_distribution(vars, values, wrapper)}</>      
+      
+      {/* <>{incomeDistribution(vars, values)}</> */}
+      {/* <>{savings(vars, values)}</> */}
       {/* <>{spending_verduras_en_contexto(vars, values)}</> */}
 
     </>
@@ -218,9 +257,3 @@ switch ([vars]) {
 
 */
 
-
-
-// 1. relevancia es un conjunto de reglas
-// if in vars is "income" ---> distribucion de ingresos ----> gráfico de tortas
-// if in vars is "income" ---> distribucion de ingresos ----> gráfico de tortas
-// if in vars is "spendings" && "incomes" ---> ahorro
